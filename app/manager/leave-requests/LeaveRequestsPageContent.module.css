@@ -1,6 +1,7 @@
 .headerAndStats{
-    padding-top: 8rem;
     background-color: #F5F5F5;
+    padding: 8rem 10px;
+
 }
 .headerAndStatsContent{
     max-width: 1700px;
@@ -23,3 +24,15 @@
     color: #090C9B;
 }
 
+.requestsStatusCards{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+}
+
+
+
+.stats{
+    display: flex;
+    justify-content: space-between;
+}

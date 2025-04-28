@@ -1,6 +1,7 @@
 'use client'
 import React, { useState } from 'react'
 import styles from './LeaveRequestsPageContent.module.css'
+import RequestsStatusCard from './components/RequestsStatusCard';
 
 const LeaveRequestsPageContent = () => {
     const [currentTab,setCurrentTab] = useState<'Requests' | 'History'>('Requests');
@@ -25,6 +26,16 @@ const LeaveRequestsPageContent = () => {
                     >
                         History
                     </h2>
+                </div>
+                <div className={styles.stats}>
+                    <div className={styles.charts}>f</div>
+                    <div className={styles.requestsStatusCards}>
+                        <RequestsStatusCard status="Approved" count={3} icon='/approve_circle.svg'/>
+                        <RequestsStatusCard status="Declined" count={2} icon='/decline_circle.svg'/>
+                        <RequestsStatusCard status="Pending" count={7} icon='/pending_circle.svg'/>
+                        <RequestsStatusCard status="Requests" count={12} icon='/requests_circle.svg'/>
+
+                    </div>
                 </div>
             </div>
         </div>
