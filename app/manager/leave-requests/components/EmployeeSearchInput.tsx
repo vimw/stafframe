@@ -84,7 +84,7 @@ async function fetchUserList(username: string): Promise<UserValue[]> {
     });
 }
 
-const App: React.FC = () => {
+const EmployeeSearchInput: React.FC = () => {
   const [value, setValue] = useState<UserValue[]>([]);
 
   return (
@@ -103,4 +103,4 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+export default EmployeeSearchInput;
