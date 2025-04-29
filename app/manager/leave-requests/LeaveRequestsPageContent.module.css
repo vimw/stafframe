@@ -48,3 +48,14 @@
 .charts div{
     width: 500px;
 }
+
+.leaveRequests{
+    max-width: 1700px;
+    margin: 0 auto;
+    margin-top: 4rem;
+    padding: 0 10px;
+}
+.leaveRequests h3{
+    font-size: 1.5rem;
+    font-weight: 400;
+}

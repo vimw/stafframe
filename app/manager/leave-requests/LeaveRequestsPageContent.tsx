@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import styles from './LeaveRequestsPageContent.module.css'
 import RequestsStatusCard from './components/RequestsStatusCard';
 import LeaveRequestsChart from './components/LeaveRequestsChart';
+import EmployeeSearchInput from './components/EmployeeSearchInput'
 
 const LeaveRequestsPageContent = () => {
     const [currentTab,setCurrentTab] = useState<'Requests' | 'History'>('Requests');
@@ -41,6 +42,9 @@ const LeaveRequestsPageContent = () => {
                     </div>
                 </div>
             </div>
+        </div>
+        <div className={styles.leaveRequests}>
+            <h3>Leave Requests</h3>
         </div>
     </section>
   )
