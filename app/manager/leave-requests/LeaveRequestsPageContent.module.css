@@ -35,4 +35,16 @@
 .stats{
     display: flex;
     justify-content: space-between;
+    margin-top: 4rem;
+    flex-wrap: wrap;
+}
+
+.charts{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.charts div{
+    width: 500px;
 }
