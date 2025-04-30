@@ -5,6 +5,7 @@ import RequestsStatusCard from './components/RequestsStatusCard';
 import LeaveRequestsChart from './components/LeaveRequestsChart';
 import EmployeeSearchInput from './components/EmployeeSearchInput'
 import LeaveTypeSelect from './components/LeaveTypeSelect';
+import LeaveRequestsTable from './components/LeaveRequestsTable';
 
 const LeaveRequestsPageContent = () => {
     const [currentTab,setCurrentTab] = useState<'Requests' | 'History'>('Requests');
@@ -61,7 +62,109 @@ const LeaveRequestsPageContent = () => {
                     ]
                 }/>
             </div>
-            <div></div>
+            <div className={styles.leaveRequestsTable}>
+                <LeaveRequestsTable
+                    header={['Employee Name','Leave Type','Start Date','End Date','Status','View','Edit/Archive']}
+                    data={[
+                        {
+                            id: 1,
+                            employeeName: 'Jan Nowak',
+                            leaveType: 'Sick Leave',
+                            startDate: '2020-03-23',
+                            endDate: '2020-03-25',
+                            status: 'Pending',
+                        },
+                        {
+                            id: 2,
+                            employeeName: 'Anna Kowalska',
+                            leaveType: 'Annual Leave',
+                            startDate: '2020-04-10',
+                            endDate: '2020-04-20',
+                            status: 'Approved',
+                        },
+                        {
+                            id: 3,
+                            employeeName: 'Piotr Zieliński',
+                            leaveType: 'Sick Leave',
+                            startDate: '2020-05-01',
+                            endDate: '2020-05-03',
+                            status: 'Rejected',
+                        },
+                        {
+                            id: 4,
+                            employeeName: 'Maria Wiśniewska',
+                            leaveType: 'Annual Leave',
+                            startDate: '2020-06-15',
+                            endDate: '2020-06-30',
+                            status: 'Approved',
+                        },
+                        {
+                            id: 5,
+                            employeeName: 'Tomasz Kaczmarek',
+                            leaveType: 'Sick Leave',
+                            startDate: '2020-07-05',
+                            endDate: '2020-07-08',
+                            status: 'Pending',
+                        },
+                        {
+                            id: 6,
+                            employeeName: 'Katarzyna Wójcik',
+                            leaveType: 'Annual Leave',
+                            startDate: '2020-08-12',
+                            endDate: '2020-08-25',
+                            status: 'Rejected',
+                        },
+                        {
+                            id: 7,
+                            employeeName: 'Michał Lewandowski',
+                            leaveType: 'Sick Leave',
+                            startDate: '2020-09-01',
+                            endDate: '2020-09-03',
+                            status: 'Approved',
+                        },
+                        {
+                            id: 8,
+                            employeeName: 'Natalia Kamińska',
+                            leaveType: 'Annual Leave',
+                            startDate: '2020-10-10',
+                            endDate: '2020-10-20',
+                            status: 'Rejected',
+                        },
+                        {
+                            id: 9,
+                            employeeName: 'Adam Nowicki',
+                            leaveType: 'Sick Leave',
+                            startDate: '2020-11-04',
+                            endDate: '2020-11-06',
+                            status: 'Pending',
+                        },
+                        {
+                            id: 10,
+                            employeeName: 'Ewa Mazur',
+                            leaveType: 'Annual Leave',
+                            startDate: '2020-12-01',
+                            endDate: '2020-12-10',
+                            status: 'Approved',
+                        },
+                        {
+                            id: 11,
+                            employeeName: 'Kamil Dąbrowski',
+                            leaveType: 'Sick Leave',
+                            startDate: '2021-01-15',
+                            endDate: '2021-01-17',
+                            status: 'Pending',
+                        },
+                        {
+                            id: 12,
+                            employeeName: 'Agnieszka Piotrowska',
+                            leaveType: 'Annual Leave',
+                            startDate: '2021-02-05',
+                            endDate: '2021-02-15',
+                            status: 'Approved',
+                        },
+                    ]}
+                />
+            </div>
         </div>
     </section>
   )
