@@ -29,7 +29,7 @@ const LeaveRequestRow = ({leaveRequest,columnCount}: LeaveRequestRow) => {
       <td style={{ width: `${100 / columnCount}%` }} className={styles.td}>
         <Link href={`/manager/leave-requests/${leaveRequest.id}`}><ExportOutlined /></Link>
       </td>
-      {leaveRequest.status === 'Pending' ? (
+      {leaveRequest.status !== 'Pending' ? (
         <td style={{ width: `${100 / columnCount}%` }} className={`${styles.td} ${styles.editArchive}`}>
           <Link href={`/manager/leave-requests/${leaveRequest.id}`}>
             <EditOutlined/>
