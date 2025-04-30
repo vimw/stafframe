@@ -4,6 +4,7 @@ import styles from './LeaveRequestsPageContent.module.css'
 import RequestsStatusCard from './components/RequestsStatusCard';
 import LeaveRequestsChart from './components/LeaveRequestsChart';
 import EmployeeSearchInput from './components/EmployeeSearchInput'
+import LeaveTypeSelect from './components/LeaveTypeSelect';
 
 const LeaveRequestsPageContent = () => {
     const [currentTab,setCurrentTab] = useState<'Requests' | 'History'>('Requests');
@@ -45,6 +46,22 @@ const LeaveRequestsPageContent = () => {
         </div>
         <div className={styles.leaveRequests}>
             <h3>Leave Requests</h3>
+            <div className={styles.leaveRequestsFilters}>
+                <EmployeeSearchInput/>
+                <LeaveTypeSelect leaveTypes={
+                    [
+                        {
+                            label: 'Annual Leave',
+                            value: 'Annual Leave'
+                        },
+                        {
+                            label: 'Sick Leave',
+                            value: 'Sick Leave'                            
+                        }
+                    ]
+                }/>
+            </div>
+            <div></div>
         </div>
     </section>
   )
