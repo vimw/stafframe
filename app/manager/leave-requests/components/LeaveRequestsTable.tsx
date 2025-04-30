@@ -1,6 +1,5 @@
 import React from 'react'
 import styles from './LeaveRequestsTable.module.css'
-import Link from 'next/link'
 import LeaveRequestRow from './LeaveRequestRow'
 
 
