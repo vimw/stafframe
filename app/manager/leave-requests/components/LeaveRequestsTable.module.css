@@ -50,12 +50,17 @@
     margin-right: .3rem;
   }
   
-  .rejected span{
+.rejected span{
     background-color: #F44336;
     display: inline-block;
     width: 12px;
     height: 12px;
     border-radius: 100%;
     margin-right: .3rem;
-  }
-  
+}
+
+.editArchive button{
+  all: unset;
+  cursor: pointer;
+  margin-left: .4rem;
+}
