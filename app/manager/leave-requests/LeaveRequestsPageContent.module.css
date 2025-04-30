@@ -59,3 +59,10 @@
     font-size: 1.5rem;
     font-weight: 400;
 }
+
+.leaveRequestsFilters{
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+    gap: 1rem;
+}

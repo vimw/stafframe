@@ -15,7 +15,7 @@ const LeaveTypeSelect = ({leaveTypes}: LeaveTypeSelectProps) => {
     <Select
         mode="multiple"
         allowClear
-        style={{ width: '100%' }}
+        style={{ width: '10%' }}
         placeholder="Leave Type"
         options={leaveTypes}
     />

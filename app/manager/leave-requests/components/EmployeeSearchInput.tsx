@@ -93,7 +93,7 @@ const EmployeeSearchInput: React.FC = () => {
       value={value}
       placeholder="Select Employee"
       fetchOptions={fetchUserList}
-      style={{ width: '100%' }}
+      style={{ width: '15%' }}
       onChange={(newValue) => {
         if (Array.isArray(newValue)) {
           setValue(newValue);
