@@ -1,0 +1,77 @@
+@value headersize: 4rem;
+@value tasktabwidth: 4rem;
+@value taskviewpadding: 10px;
+
+.taskview {
+    position: relative;
+
+    width: 100%;
+    height: 80vh;
+    box-sizing: border-box;
+    overflow: scroll;
+
+    padding: taskviewpadding;
+}
+
+.bg {
+    position: absolute;
+    z-index: -1;
+    top: calc(taskviewpadding + headersize);
+    left: taskviewpadding;
+
+    width: 100%;
+
+    & div {
+        margin: 0;
+    }
+}
+
+.content {
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+.hourdisplay {
+    margin-top: headersize;
+
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+
+    background-color: grey;
+    color: white;
+
+    & div {
+        padding: 0 0.4rem;
+    }
+}
+
+.tab {
+}
+
+.tabtop {
+    position: sticky;
+    top: taskviewpadding;
+
+    width: 100%;
+    height: headersize;
+
+    background-color: aqua;
+}
+
+.tabtasks{
+    position: relative;
+
+    width: 100%;
+}
+
+.task {
+    position: absolute;
+
+    display: flex;
+    flex-flow: column nowrap;
+
+    background-color: red;
+
+    overflow: hidden;
+}
