@@ -70,3 +70,10 @@
 .leaveRequestsTable{
     margin: 5rem 0;
 }
+
+
+.leaveRequestsTableNavigation{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
