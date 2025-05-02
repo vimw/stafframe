@@ -1,12 +1,12 @@
 'use client'
 import React, { useState } from 'react'
 import styles from './LeaveRequestsPageContent.module.css'
-import RequestsStatusCard from './components/RequestsStatusCard';
-import LeaveRequestsChart from './components/LeaveRequestsChart';
-import EmployeeSearchInput from './components/EmployeeSearchInput'
-import LeaveTypeSelect from './components/LeaveTypeSelect';
-import LeaveRequestsTable from './components/LeaveRequestsTable';
-import LeaveRequestsTableNavigation from './components/LeaveRequestsTableNavigation';
+import RequestsStatusCard from './components/RequestsStatusCard/RequestsStatusCard';
+import LeaveRequestsChart from './components/LeaveRequestsChart/LeaveRequestsChart';
+import EmployeeSearchInput from './components/EmployeeSearchInput/EmployeeSearchInput'
+import LeaveTypeSelect from './components/LeaveTypeSelect/LeaveTypeSelect';
+import LeaveRequestsTable from './components/LeaveRequestsTable/LeaveRequestsTable';
+import LeaveRequestsTableNavigation from './components/LeaveRequestsTableNavigation/LeaveRequestsTableNavigation';
 
 interface LeaveRequest {
     id: number
