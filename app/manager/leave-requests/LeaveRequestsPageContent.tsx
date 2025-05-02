@@ -176,7 +176,11 @@ const LeaveRequestsPageContent = () => {
             </div>
         </div>
         <div className={styles.leaveRequests}>
-            <h3>Leave Requests</h3>
+            {currentTab === 'Requests' ? (
+                <h3>Leave Requests</h3>
+            ): (
+                <h3>Archived Leave Requests</h3>
+            )}
             <div className={styles.leaveRequestsFilters}>
                 <EmployeeSearchInput/>
                 <LeaveTypeSelect leaveTypes={
@@ -196,10 +200,18 @@ const LeaveRequestsPageContent = () => {
                 <LeaveRequestsTableNavigation handlePreviousPageClick={handlePreviousPageClick} handleNextPageClick={handleNextPageClick} leaveRequestsCount={leaveRequests.length} startItem={startItem} endItem={endItem} isPreviousDisabled={isPreviousDisabled} isNextDisabled={isNextDisabled}/>
             </div>
             <div className={styles.leaveRequestsTable}>
-                <LeaveRequestsTable
-                    header={['Employee Name','Leave Type','Start Date','End Date','Status','View','Edit/Archive']}
+                {currentTab==='Requests' ? (
+                    <LeaveRequestsTable
+                        header={['Employee Name','Leave Type','Start Date','End Date','Status','View','Edit/Archive']}
+                        data={currentTableData}
+                    />
+                ): (
+                    <LeaveRequestsTable
+                    header={['Employee Name','Leave Type','Start Date','End Date','Status','View']}
                     data={currentTableData}
+                    mode='archive'
                 />
+                )}
             </div>
         </div>
     </section>

@@ -13,9 +13,10 @@ interface LeaveRequestRow{
     status: 'Pending' | 'Approved' | 'Rejected' | 'Archived';
   }
   columnCount: number
+  mode?: 'default' | 'archive'
 }
 
-const LeaveRequestRow = ({leaveRequest,columnCount}: LeaveRequestRow) => {
+const LeaveRequestRow = ({leaveRequest,columnCount,mode}: LeaveRequestRow) => {
   return (
     <tr key={leaveRequest.id} className={styles.row}>
       <td style={{ width: `${100 / columnCount}%` }} className={styles.td}>{leaveRequest.employeeName}</td>
@@ -29,16 +30,18 @@ const LeaveRequestRow = ({leaveRequest,columnCount}: LeaveRequestRow) => {
       <td style={{ width: `${100 / columnCount}%` }} className={styles.td}>
         <Link href={`/manager/leave-requests/${leaveRequest.id}`}><ExportOutlined /></Link>
       </td>
-      {leaveRequest.status !== 'Pending' ? (
-        <td style={{ width: `${100 / columnCount}%` }} className={`${styles.td} ${styles.editArchive}`}>
-          <Link href={`/manager/leave-requests/${leaveRequest.id}`}>
-            <EditOutlined/>
-          </Link>
-          <button>
-            <FolderOutlined />
-          </button>
-        </td>
-      ): <td style={{ width: `${100 / columnCount}%` }} className={styles.td}></td>}
+      {mode !== 'archive' && (
+        leaveRequest.status !== 'Pending' ? (
+          <td style={{ width: `${100 / columnCount}%` }} className={`${styles.td} ${styles.editArchive}`}>
+            <Link href={`/manager/leave-requests/${leaveRequest.id}`}>
+              <EditOutlined/>
+            </Link>
+            <button>
+              <FolderOutlined />
+            </button>
+          </td>
+        ): <td style={{ width: `${100 / columnCount}%` }} className={styles.td}></td>
+      )}
     </tr>
   )
 }

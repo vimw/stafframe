@@ -15,9 +15,10 @@ interface LeaveRequests{
 interface LeaveRequestsTableProps{
     header: string[]
     data: LeaveRequests[]
+    mode?: 'default' | 'archive'
 }
 
-const LeaveRequestsTable = ({header,data}: LeaveRequestsTableProps) => {
+const LeaveRequestsTable = ({header,data,mode}: LeaveRequestsTableProps) => {
   return (
     <div className={styles.wrapper}>
       <table className={styles.table}>
@@ -32,7 +33,7 @@ const LeaveRequestsTable = ({header,data}: LeaveRequestsTableProps) => {
         </thead>
         <tbody>
           {data.map((leaveRequest) => (
-            <LeaveRequestRow key={leaveRequest.id} leaveRequest={leaveRequest} columnCount={data.length}/>
+            <LeaveRequestRow key={leaveRequest.id} leaveRequest={leaveRequest} columnCount={data.length} mode={mode}/>
           ))}
         </tbody>
       </table>
