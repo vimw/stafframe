@@ -26,7 +26,7 @@ const hourRange = {
 };
 
 const defaultTaskTime: taskTimeI = {
-    hour: hourRange.startAt + 1,
+    hour: hourRange.startAt,
     minute: 0,
     length: 60
 }
@@ -140,8 +140,29 @@ function Task({ title="New Task", taskTime=defaultTaskTime, children }: { title?
     );
 }
 
+
+// extras
+function createTabsFromObject(tabs: taskTabI[]){
+    return (
+        <>
+        {tabs.map((tab, tabIndex) => (
+            <TaskTab key={tabIndex} title={tab.title ?? undefined}>
+                { tab.tasks?.map((task, taskIndex) => (
+                    <Task key={taskIndex} title={task.title ?? undefined} taskTime={task.taskTime ?? undefined}>
+                        { task.desc }
+                    </Task>
+                )) }
+            </TaskTab>
+        ))}
+        </>
+    );
+}
+
 // components
 export { Taskview, TaskTab, Task };
+
+// functions
+export { createTabsFromObject };
 
 // interfaces
 export type { taskTabI, taskI, taskTimeI };

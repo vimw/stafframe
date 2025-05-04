@@ -1,4 +1,4 @@
-import { taskTabI, taskI, taskTimeI } from "./Taskview";
+import { taskTabI } from "./Taskview";
 
 const taskTabs: taskTabI[] = [
     {
@@ -12,6 +12,23 @@ const taskTabs: taskTabI[] = [
                     minute: 0,
                     length: 30
                 }
+            },
+            {
+                title: "Pracuj",
+                desc: "Zaprogramuj widok grafiku",
+                taskTime: {
+                    hour: 9,
+                    minute: 0,
+                    length: 120
+                }
+            }
+        ]
+    },
+    {
+        title: "Magda Magdalena",
+        tasks: [
+            {
+                title: "Wstaje rano",
             }
         ]
     }
