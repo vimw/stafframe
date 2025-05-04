@@ -7,7 +7,7 @@ import EmployeeSearchInput from './components/EmployeeSearchInput/EmployeeSearch
 import LeaveTypeSelect from './components/LeaveTypeSelect/LeaveTypeSelect';
 import LeaveRequestsTable from './components/LeaveRequestsTable/LeaveRequestsTable';
 import LeaveRequestsTableNavigation from './components/LeaveRequestsTableNavigation/LeaveRequestsTableNavigation';
-import { fetchActiveLeaveRequests } from './lib/api/leaves';
+import { fetchLeaveRequests } from './lib/api/leaves';
 import LeaveRequestsTableSkeleton from './components/LeaveRequestsTableSkeleton/LeaveRequestsTableSkeleton';
 
 interface LeaveRequest {
@@ -16,7 +16,7 @@ interface LeaveRequest {
     leaveType: 'Annual Leave' | 'Sick Leave'
     startDate: string
     endDate: string
-    status: 'Pending' | 'Approved' | 'Rejected'
+    status: 'Pending' | 'Approved' | 'Rejected' | 'Archived'
 }
 
 const LeaveRequestsPageContent = () => {
@@ -28,16 +28,17 @@ const LeaveRequestsPageContent = () => {
     const [activeLeaveRequests,setActiveLeaveRequests] = useState<LeaveRequest[][]>([])
     const [archivedLeaveRequests,setArchivedLeaveRequests] = useState<LeaveRequest[][]>([])
     const [activeLeaveRequestsCount,setActiveLeaveRequestsCount] = useState<number>(0)
+    const [archivedLeaveRequestsCount,setArchivedLeaveRequestsCount] = useState<number>(0)
 
     // Number of table rows displayed per page
     const pageSize = 6;
 
 
     const startItem = (currentPage - 1) * pageSize + 1;
-    const endItem = Math.min(currentPage * pageSize, activeLeaveRequestsCount);
+    const endItem = Math.min(currentPage * pageSize, currentTab==='Requests' ? activeLeaveRequestsCount:archivedLeaveRequestsCount);
 
     const isPreviousDisabled = currentPage === 1;
-    const isNextDisabled = currentPage * pageSize >= activeLeaveRequestsCount;
+    const isNextDisabled = currentPage * pageSize >= (currentTab==='Requests' ? activeLeaveRequestsCount:archivedLeaveRequestsCount);
 
 
     function handleTabChange(tab: 'Requests' | 'History'){
@@ -72,19 +73,27 @@ const LeaveRequestsPageContent = () => {
         setCurrentPage(1)
     }
 
-    // fetch active leave requets
+    // fetch  leave requets
     useEffect(() => {
-        if(activeLeaveRequests[currentPage-1]) return
+        if (currentTab === 'Requests' && activeLeaveRequests[currentPage-1]){
+            return
+        } else if(currentTab === 'History' && archivedLeaveRequests[currentPage-1]) return
 
         setLoading(true)
         const fetchData = async () => {
-            const {paginatedLeaveRequests,totalCount} = await fetchActiveLeaveRequests(filteredEmployees,filteredLeaveTypes,currentPage,pageSize)
-            setActiveLeaveRequests((prev) => [...prev,paginatedLeaveRequests])
-            setActiveLeaveRequestsCount(totalCount)
+            if(currentTab==='Requests'){
+                const {paginatedLeaveRequests,totalCount} = await fetchLeaveRequests(filteredEmployees,filteredLeaveTypes,currentPage,pageSize)
+                setActiveLeaveRequests((prev) => [...prev,paginatedLeaveRequests])
+                setActiveLeaveRequestsCount(totalCount)
+            } else {
+                const {paginatedLeaveRequests,totalCount} = await fetchLeaveRequests(filteredEmployees,filteredLeaveTypes,currentPage,pageSize,'archived')
+                setArchivedLeaveRequests((prev) => [...prev,paginatedLeaveRequests])
+                setArchivedLeaveRequestsCount(totalCount)
+            }
             setLoading(false)
         }
         fetchData();
-    },[currentPage,filteredEmployees,filteredLeaveTypes])
+    },[currentPage,filteredEmployees,filteredLeaveTypes,currentTab])
 
     
   return (
@@ -144,7 +153,9 @@ const LeaveRequestsPageContent = () => {
                 />
             </div>
             <div className={styles.leaveRequestsTableNavigation}>
-                <LeaveRequestsTableNavigation handlePreviousPageClick={handlePreviousPageClick} handleNextPageClick={handleNextPageClick} leaveRequestsCount={activeLeaveRequestsCount} startItem={startItem} endItem={endItem} isPreviousDisabled={isPreviousDisabled} isNextDisabled={isNextDisabled}/>
+                {!loading && (
+                    <LeaveRequestsTableNavigation handlePreviousPageClick={handlePreviousPageClick} handleNextPageClick={handleNextPageClick} leaveRequestsCount={currentTab==='Requests' ? activeLeaveRequestsCount: archivedLeaveRequestsCount} startItem={startItem} endItem={endItem} isPreviousDisabled={isPreviousDisabled} isNextDisabled={isNextDisabled}/>
+                )}
             </div>
             <div className={styles.leaveRequestsTable}>
                 {currentTab==='Requests' ? (
@@ -157,7 +168,7 @@ const LeaveRequestsPageContent = () => {
                         />
                     )
                 ): (
-                    loading || !activeLeaveRequests[currentPage-1] ? (
+                    loading || !archivedLeaveRequests[currentPage-1] ? (
                         <LeaveRequestsTableSkeleton />
                     ) : (
                         <LeaveRequestsTable
