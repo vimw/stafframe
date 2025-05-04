@@ -2,6 +2,17 @@ import React from "react";
 import { Splitter, Typography, TypographyProps } from "antd";
 import styles from "./Taskview.module.css";
 
+interface taskTabI {
+    title?: string,
+    tasks?: taskI[]
+}
+
+interface taskI {
+    title?: string,
+    desc?: string,
+    taskTime?: taskTimeI
+}
+
 interface taskTimeI {
     hour: number,
     minute: number,
@@ -35,7 +46,7 @@ function verifyTaskTime(taskTime: taskTimeI){
 }
 
 const hourBoxSize = 120;                                                                    // px
-const boxBorder = 1;                                                                    // px
+const boxBorder = 1;                                                                        // px
 const boxSize = hourBoxSize / hourRange.steps;
 const boxNumber = (hourRange.endAt - hourRange.startAt + 1) * hourRange.steps;
 const taskTabWidth = 200;                                                                   // px
@@ -129,4 +140,8 @@ function Task({ title="New Task", taskTime=defaultTaskTime, children }: { title?
     );
 }
 
+// components
 export { Taskview, TaskTab, Task };
+
+// interfaces
+export type { taskTabI, taskI, taskTimeI };
