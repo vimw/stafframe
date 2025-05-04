@@ -9,15 +9,11 @@
     height: 80vh;
     box-sizing: border-box;
     overflow: scroll;
-
-    padding: taskviewpadding;
 }
 
 .bg {
     position: absolute;
     z-index: -1;
-    top: calc(taskviewpadding + headersize);
-    left: taskviewpadding;
 
     width: 100%;
 
