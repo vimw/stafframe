@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './LeaveRequestsPageContent.module.css'
 import RequestsStatusCard from './components/RequestsStatusCard/RequestsStatusCard';
 import LeaveRequestsChart from './components/LeaveRequestsChart/LeaveRequestsChart';
@@ -7,6 +7,8 @@ import EmployeeSearchInput from './components/EmployeeSearchInput/EmployeeSearch
 import LeaveTypeSelect from './components/LeaveTypeSelect/LeaveTypeSelect';
 import LeaveRequestsTable from './components/LeaveRequestsTable/LeaveRequestsTable';
 import LeaveRequestsTableNavigation from './components/LeaveRequestsTableNavigation/LeaveRequestsTableNavigation';
+import { fetchActiveLeaveRequests } from './lib/api/leaves';
+import LeaveRequestsTableSkeleton from './components/LeaveRequestsTableSkeleton/LeaveRequestsTableSkeleton';
 
 interface LeaveRequest {
     id: number
@@ -20,119 +22,27 @@ interface LeaveRequest {
 const LeaveRequestsPageContent = () => {
     const [currentTab,setCurrentTab] = useState<'Requests' | 'History'>('Requests');
     const [currentPage,setCurrentPage] = useState<number>(1)
+    const [loading,setLoading] = useState(true);
+    const [filteredLeaveTypes,setFilteredLeaveTypes] = useState<string[]>([])
+    const [filteredEmployees,setFilteredEmployees] = useState<string[]>([])
+    const [activeLeaveRequests,setActiveLeaveRequests] = useState<LeaveRequest[][]>([])
+    const [archivedLeaveRequests,setArchivedLeaveRequests] = useState<LeaveRequest[][]>([])
+    const [activeLeaveRequestsCount,setActiveLeaveRequestsCount] = useState<number>(0)
+
     // Number of table rows displayed per page
     const pageSize = 6;
 
 
-    const leaveRequests: LeaveRequest[] = [
-        {
-            id: 1,
-            employeeName: 'Jan Nowak',
-            leaveType: 'Sick Leave',
-            startDate: '2020-03-23',
-            endDate: '2020-03-25',
-            status: 'Pending',
-        },
-        {
-            id: 2,
-            employeeName: 'Anna Kowalska',
-            leaveType: 'Annual Leave',
-            startDate: '2020-04-10',
-            endDate: '2020-04-20',
-            status: 'Approved',
-        },
-        {
-            id: 3,
-            employeeName: 'Piotr Zieliński',
-            leaveType: 'Sick Leave',
-            startDate: '2020-05-01',
-            endDate: '2020-05-03',
-            status: 'Rejected',
-        },
-        {
-            id: 4,
-            employeeName: 'Maria Wiśniewska',
-            leaveType: 'Annual Leave',
-            startDate: '2020-06-15',
-            endDate: '2020-06-30',
-            status: 'Approved',
-        },
-        {
-            id: 5,
-            employeeName: 'Tomasz Kaczmarek',
-            leaveType: 'Sick Leave',
-            startDate: '2020-07-05',
-            endDate: '2020-07-08',
-            status: 'Pending',
-        },
-        {
-            id: 6,
-            employeeName: 'Katarzyna Wójcik',
-            leaveType: 'Annual Leave',
-            startDate: '2020-08-12',
-            endDate: '2020-08-25',
-            status: 'Rejected',
-        },
-        {
-            id: 7,
-            employeeName: 'Michał Lewandowski',
-            leaveType: 'Sick Leave',
-            startDate: '2020-09-01',
-            endDate: '2020-09-03',
-            status: 'Approved',
-        },
-        {
-            id: 8,
-            employeeName: 'Natalia Kamińska',
-            leaveType: 'Annual Leave',
-            startDate: '2020-10-10',
-            endDate: '2020-10-20',
-            status: 'Rejected',
-        },
-        {
-            id: 9,
-            employeeName: 'Adam Nowicki',
-            leaveType: 'Sick Leave',
-            startDate: '2020-11-04',
-            endDate: '2020-11-06',
-            status: 'Pending',
-        },
-        {
-            id: 10,
-            employeeName: 'Ewa Mazur',
-            leaveType: 'Annual Leave',
-            startDate: '2020-12-01',
-            endDate: '2020-12-10',
-            status: 'Approved',
-        },
-        {
-            id: 11,
-            employeeName: 'Kamil Dąbrowski',
-            leaveType: 'Sick Leave',
-            startDate: '2021-01-15',
-            endDate: '2021-01-17',
-            status: 'Pending',
-        },
-        {
-            id: 12,
-            employeeName: 'Agnieszka Piotrowska',
-            leaveType: 'Annual Leave',
-            startDate: '2021-02-05',
-            endDate: '2021-02-15',
-            status: 'Approved',
-        },
-    ]
-
     const startItem = (currentPage - 1) * pageSize + 1;
-    const endItem = Math.min(currentPage * pageSize, leaveRequests.length);
+    const endItem = Math.min(currentPage * pageSize, activeLeaveRequestsCount);
 
     const isPreviousDisabled = currentPage === 1;
-    const isNextDisabled = currentPage * pageSize >= leaveRequests.length;
+    const isNextDisabled = currentPage * pageSize >= activeLeaveRequestsCount;
 
-    let currentTableData = leaveRequests.slice((currentPage - 1) * pageSize, currentPage * pageSize)
 
     function handleTabChange(tab: 'Requests' | 'History'){
         setCurrentTab(tab);
+        setCurrentPage(1);
     }
 
     function handleNextPageClick() {
@@ -141,6 +51,40 @@ const LeaveRequestsPageContent = () => {
     function handlePreviousPageClick() {
         setCurrentPage(currentPage-1)
     }
+
+    function handleFilterEmployees(users:string[]){
+        setFilteredEmployees(users)
+        if (currentTab === 'Requests'){
+            setActiveLeaveRequests([])
+        } else {
+            setArchivedLeaveRequests([])
+        }
+        setCurrentPage(1)
+    }
+
+    function handleFilterLeaveTypes(leaveTypes:string[]){
+        setFilteredLeaveTypes(leaveTypes)
+        if (currentTab === 'Requests'){
+            setActiveLeaveRequests([])
+        } else {
+            setArchivedLeaveRequests([])
+        }
+        setCurrentPage(1)
+    }
+
+    // fetch active leave requets
+    useEffect(() => {
+        if(activeLeaveRequests[currentPage-1]) return
+
+        setLoading(true)
+        const fetchData = async () => {
+            const {paginatedLeaveRequests,totalCount} = await fetchActiveLeaveRequests(filteredEmployees,filteredLeaveTypes,currentPage,pageSize)
+            setActiveLeaveRequests((prev) => [...prev,paginatedLeaveRequests])
+            setActiveLeaveRequestsCount(totalCount)
+            setLoading(false)
+        }
+        fetchData();
+    },[currentPage,filteredEmployees,filteredLeaveTypes])
 
     
   return (
@@ -182,35 +126,46 @@ const LeaveRequestsPageContent = () => {
                 <h3>Archived Leave Requests</h3>
             )}
             <div className={styles.leaveRequestsFilters}>
-                <EmployeeSearchInput/>
-                <LeaveTypeSelect leaveTypes={
-                    [
-                        {
-                            label: 'Annual Leave',
-                            value: 'Annual Leave'
-                        },
-                        {
-                            label: 'Sick Leave',
-                            value: 'Sick Leave'                            
-                        }
-                    ]
-                }/>
+                <EmployeeSearchInput handleFilterEmployees={handleFilterEmployees}/>
+                <LeaveTypeSelect 
+                    leaveTypes={
+                        [
+                            {
+                                label: 'Annual Leave',
+                                value: 'Annual Leave'
+                            },
+                            {
+                                label: 'Sick Leave',
+                                value: 'Sick Leave'                            
+                            }
+                        ]
+                    }
+                    handleFilterLeaveTypes={handleFilterLeaveTypes}
+                />
             </div>
             <div className={styles.leaveRequestsTableNavigation}>
-                <LeaveRequestsTableNavigation handlePreviousPageClick={handlePreviousPageClick} handleNextPageClick={handleNextPageClick} leaveRequestsCount={leaveRequests.length} startItem={startItem} endItem={endItem} isPreviousDisabled={isPreviousDisabled} isNextDisabled={isNextDisabled}/>
+                <LeaveRequestsTableNavigation handlePreviousPageClick={handlePreviousPageClick} handleNextPageClick={handleNextPageClick} leaveRequestsCount={activeLeaveRequestsCount} startItem={startItem} endItem={endItem} isPreviousDisabled={isPreviousDisabled} isNextDisabled={isNextDisabled}/>
             </div>
             <div className={styles.leaveRequestsTable}>
                 {currentTab==='Requests' ? (
-                    <LeaveRequestsTable
-                        header={['Employee Name','Leave Type','Start Date','End Date','Status','View','Edit/Archive']}
-                        data={currentTableData}
-                    />
+                    loading || !activeLeaveRequests[currentPage-1] ? (
+                        <LeaveRequestsTableSkeleton />
+                    ) : (
+                        <LeaveRequestsTable
+                            header={['Employee Name','Leave Type','Start Date','End Date','Status','View','Edit/Archive']}
+                            data={activeLeaveRequests[currentPage-1]}
+                        />
+                    )
                 ): (
-                    <LeaveRequestsTable
-                    header={['Employee Name','Leave Type','Start Date','End Date','Status','View']}
-                    data={currentTableData}
-                    mode='archive'
-                />
+                    loading || !activeLeaveRequests[currentPage-1] ? (
+                        <LeaveRequestsTableSkeleton />
+                    ) : (
+                        <LeaveRequestsTable
+                            header={['Employee Name','Leave Type','Start Date','End Date','Status','View']}
+                            data={archivedLeaveRequests[currentPage-1]}
+                            mode='archive'
+                        />
+                    )
                 )}
             </div>
         </div>
