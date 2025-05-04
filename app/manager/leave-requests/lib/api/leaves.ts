@@ -4,7 +4,7 @@ interface LeaveRequest {
     leaveType: 'Annual Leave' | 'Sick Leave'
     startDate: string
     endDate: string
-    status: 'Pending' | 'Approved' | 'Rejected'
+    status: 'Pending' | 'Approved' | 'Rejected' | 'Archived'
 }
 
 interface PaginatedLeaveRequestsResponse {
@@ -12,10 +12,11 @@ interface PaginatedLeaveRequestsResponse {
     totalCount: number;
 }
 
-export  async function fetchActiveLeaveRequests(employees:string[],leaveTypes: string[],currentPage:number,pageSize:number):Promise<PaginatedLeaveRequestsResponse> {
+export async function fetchLeaveRequests(employees:string[],leaveTypes: string[],currentPage:number,pageSize:number,status?: 'archived'):Promise<PaginatedLeaveRequestsResponse> {
     const employeeParams:string = employees.map((employee) => `employee=${encodeURIComponent(employee)}`).join('&')
     const leaveTypesParams:string = leaveTypes.map((leaveType) => `leaveType=${encodeURIComponent(leaveType)}`).join('&')
-    const url:string = `/api/leaveRequests?${employeeParams}&${leaveTypesParams}&page=${currentPage}&pageSize=${pageSize}`
+     const statusParam:string = status ? `&status=${encodeURIComponent(status)}` : ''
+    const url:string = `/api/leaveRequests?${employeeParams}&${leaveTypesParams}&page=${currentPage}&pageSize=${pageSize}${statusParam}`
 
     try {
         const response: Response = await fetch(url);
