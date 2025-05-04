@@ -84,7 +84,11 @@ async function fetchUserList(username: string): Promise<UserValue[]> {
     });
 }
 
-const EmployeeSearchInput: React.FC = () => {
+interface EmployeeSearchInputProps{
+  handleFilterEmployees: (users: string[]) => void
+}
+
+const EmployeeSearchInput = ({handleFilterEmployees}: EmployeeSearchInputProps) => {
   const [value, setValue] = useState<UserValue[]>([]);
 
   return (
@@ -97,6 +101,7 @@ const EmployeeSearchInput: React.FC = () => {
       onChange={(newValue) => {
         if (Array.isArray(newValue)) {
           setValue(newValue);
+          handleFilterEmployees(newValue.map((value) => value.value))
         }
       }}
     />

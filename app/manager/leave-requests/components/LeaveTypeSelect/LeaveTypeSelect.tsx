@@ -5,12 +5,13 @@ import type { SelectProps } from 'antd';
 
 interface LeaveTypeSelectProps{
     leaveTypes: { label: string; value: string }[];
+    handleFilterLeaveTypes: (leaveTypes: string[]) => void
 }
 
 const options: SelectProps['options'] = [];
 
 
-const LeaveTypeSelect = ({leaveTypes}: LeaveTypeSelectProps) => {
+const LeaveTypeSelect = ({leaveTypes,handleFilterLeaveTypes}: LeaveTypeSelectProps) => {
   return (
     <Select
         mode="multiple"
@@ -18,6 +19,7 @@ const LeaveTypeSelect = ({leaveTypes}: LeaveTypeSelectProps) => {
         style={{ width: '10%' }}
         placeholder="Leave Type"
         options={leaveTypes}
+        onChange={(leaveTypes) => handleFilterLeaveTypes(leaveTypes)}
     />
   )
 }
