@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Stafframe ✨
 
-## Getting Started
+**Stafframe: Visual Task Planning and Scheduling for Teams**
 
-First, run the development server:
+Stafframe provides a clear, time-based visual interface for managers to assign tasks to employees and oversee daily and weekly schedules.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Key Features 🚀
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+*   **Task Creation & Assignment:** Managers can easily create tasks with details like title, description, assigned employee, date, start time, and duration.
+*   **Visual Timeline:** Tasks are displayed on a dynamic timeline grid, showing scheduled work hour by hour.
+*   **Daily Overview:** Get a comprehensive view of all tasks assigned to all employees for any selected day.
+*   **Weekly Worker Focus:** Drill down into a specific employee's schedule to see their planned tasks for the entire week.
+*   **Leave requests:** Workers can request a leave which can be approved or denied by the manager.
+*   **Clear Role Distinction:** Designed for managers planning tasks and employees viewing their schedules (future feature?).
+*   **Intuitive Interface:** Built with Ant Design for a clean and efficient user experience.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## Screenshots 📸
 
-To learn more about Next.js, take a look at the following resources:
+*[TODO]*
+**Daily Timeline View**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+*[TODO]*
+**Weekly Worker View**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+*[TODO]*
+**Task Creation**
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Tech Stack 🛠️
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+*   **Frontend:** React, Next.js, TypeScript
+*   **UI Library:** Ant Design
+*   **Styling:** CSS Modules
+*   **State Management:** [TODO]
+*   **API/Backend:** [TODO]
+*   **Database:** [TODO]
+*   **Deployment:** [TODO]
+
+---
+
+
+## License 📄
+
+
+This project is licensed under the GNU GPL v3 License - see the `LICENSE` file for details.
+
+---
