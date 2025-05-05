@@ -59,6 +59,15 @@
     margin-right: .3rem;
 }
 
+.archived span {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 100%;
+  background-color: #9E9E9E;
+  margin-right: .3rem;
+}
+
 .editArchive button{
   all: unset;
   cursor: pointer;
