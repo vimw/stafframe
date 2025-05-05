@@ -1,24 +1,20 @@
-# Sample workflow for building a Next.js site artifact
-#
-name: Build Next.js Artifact
+name: Build and Test Next.js App
 
 on:
   push:
     branches: ["main"]
-
   workflow_dispatch:
 
 permissions:
   contents: read
 
-
 jobs:
-  # Build job
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Detect package manager
         id: detect-package-manager
         run: |
@@ -36,11 +32,13 @@ jobs:
             echo "Unable to determine package manager"
             exit 1
           fi
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: "20"
           cache: ${{ steps.detect-package-manager.outputs.manager }}
+
       - name: Restore cache
         uses: actions/cache@v4
         with:
@@ -49,12 +47,25 @@ jobs:
           key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-
+
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
+
       - name: Build with Next.js
         run: ${{ steps.detect-package-manager.outputs.runner }} next build
-      - name: Upload artifact
+
+      # Optional: Run tests if you have them
+      # - name: Run tests
+      #   run: ${{ steps.detect-package-manager.outputs.runner }} test
+
+      # Optional: Start the server to verify it works (for CI only, not for deployment)
+      # - name: Start Next.js server
+      #   run: ${{ steps.detect-package-manager.outputs.runner }} next start &
+      #   # You could add curl/wget requests here to test endpoints
+
+      # Optionally upload the .next folder as an artifact
+      - name: Upload .next build artifact
         uses: actions/upload-artifact@v4
         with:
-          name: nextjs-static-build
-          path: ./out
+          name: nextjs-server-build
+          path: .next
