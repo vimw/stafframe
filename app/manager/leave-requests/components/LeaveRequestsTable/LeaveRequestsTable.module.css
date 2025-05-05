@@ -1,0 +1,75 @@
+.wrapper {
+    overflow-x: auto;
+}
+  
+  .table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  }
+  
+  .th, .td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+    word-wrap: break-word;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  
+  .th {
+    background-color: #f5f5f5;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .row:hover {
+    background-color: #fafafa;
+  }
+
+
+  .pending span{
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 100%;
+    background-color: #FFCA28;
+    margin-right: .3rem;
+  }
+  
+  .approved span{
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 100%;
+    background-color: #4CAF50;
+    margin-right: .3rem;
+  }
+  
+.rejected span{
+    background-color: #F44336;
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 100%;
+    margin-right: .3rem;
+}
+
+.archived span {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 100%;
+  background-color: #9E9E9E;
+  margin-right: .3rem;
+}
+
+.editArchive button{
+  all: unset;
+  cursor: pointer;
+  margin-left: .4rem;
+}

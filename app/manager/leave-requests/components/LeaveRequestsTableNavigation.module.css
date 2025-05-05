@@ -1,0 +1,37 @@
+.navigationWrapper{
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+.navigationWrapper p{
+    color: #94A3B8;
+}
+
+.navigationWrapper button{
+    all: unset;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: #0f172a;
+    transition: color 0.2s ease, transform 0.2s ease;
+    padding: 0.2rem 0.5rem;
+    border-radius: 0.4rem;
+}
+
+.navigationWrapper button:hover {
+    color: #1d4ed8;
+    transform: scale(1.15);
+    background-color: #f1f5f9;
+  }
+  
+.navigationWrapper button:disabled {
+    color: #94A3B8;
+    cursor: not-allowed;
+    transform: none;
+    background-color: transparent;
+  }
+  
+.navigationWrapper button:disabled:hover {
+    color: #94A3B8;
+    background-color: transparent;
+}

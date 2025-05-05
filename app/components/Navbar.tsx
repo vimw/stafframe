@@ -16,7 +16,7 @@ const Navbar = () => {
                   <Link href="/">Manage Users</Link>
                 </li>
                 <li>
-                  <Link href="/">Leave Requests</Link>
+                  <Link href="/manager/leave-requests">Leave Requests</Link>
                 </li>
             </ul>
         </div>

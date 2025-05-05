@@ -1,0 +1,79 @@
+.headerAndStats{
+    background-color: #F5F5F5;
+    padding: 8rem 10px;
+
+}
+.headerAndStatsContent{
+    max-width: 1700px;
+    margin: 0 auto;
+}
+
+.links{
+    display: flex;
+    gap: 3rem;
+    font-weight: bold;
+    font-size: 1.5rem;
+    user-select: none;
+}
+
+.links h2{
+    cursor: pointer;
+}
+
+.active{
+    color: #090C9B;
+}
+
+.requestsStatusCards{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+}
+
+
+
+.stats{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 4rem;
+    flex-wrap: wrap;
+}
+
+.charts{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.charts div{
+    width: 500px;
+}
+
+.leaveRequests{
+    max-width: 1700px;
+    margin: 0 auto;
+    margin-top: 4rem;
+    padding: 0 10px;
+}
+.leaveRequests h3{
+    font-size: 1.5rem;
+    font-weight: 400;
+}
+
+.leaveRequestsFilters{
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+    gap: 1rem;
+}
+
+.leaveRequestsTable{
+    margin: 5rem 0;
+}
+
+
+.leaveRequestsTableNavigation{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
