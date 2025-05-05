@@ -101,7 +101,7 @@ function Taskviewtimedisplay(){
 
 function TaskTab({ title="New Tab", children }: { title?: string, children?: React.ReactNode }){
     return (
-        <Splitter.Panel className={styles.tab} size={taskTabWidth}>
+        <Splitter.Panel className={styles.tab} defaultSize={taskTabWidth}>
             <div className={styles.tabtop} style={{
                 top: 0,
                 height: headerSize
