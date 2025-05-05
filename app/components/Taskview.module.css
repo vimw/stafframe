@@ -47,9 +47,15 @@
     position: sticky;
     z-index: 10;
 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     width: 100%;
 
     background-color: aqua;
+
+    border-radius: 0.8rem;
 }
 
 .tabtasks {
@@ -60,16 +66,19 @@
 
 .task {
     position: absolute;
+    left: 5px;
 
     display: flex;
     flex-flow: column nowrap;
 
     padding: 0.5rem;
 
-    width: 100%;
+    width: calc(100% - 10px);
 
     font-size: 1.2em;
-    background-color: red;
+    color: white;
+
+    border-radius: 0.8rem;
 
     overflow: hidden;
 }

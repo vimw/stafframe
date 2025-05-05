@@ -1,5 +1,5 @@
 import React from "react";
-import { Splitter, Typography, TypographyProps } from "antd";
+import { Splitter } from "antd";
 import styles from "./Taskview.module.css";
 
 interface taskTabI {
@@ -10,6 +10,7 @@ interface taskTabI {
 interface taskI {
     title?: string,
     desc?: string,
+    bgcolor?: string,
     taskTime?: taskTimeI
 }
 
@@ -49,7 +50,7 @@ const hourBoxSize = 120;                                                        
 const boxBorder = 1;                                                                        // px
 const boxSize = hourBoxSize / hourRange.steps;
 const boxNumber = (hourRange.endAt - hourRange.startAt + 1) * hourRange.steps;
-const taskTabWidth = 200;                                                                   // px
+const taskTabWidth = 600;                                                                   // px
 const taskViewPadding = 4;                                                                  // px
 const headerSize = 64;                                                                      // px
 
@@ -100,7 +101,7 @@ function Taskviewtimedisplay(){
 
 function TaskTab({ title="New Tab", children }: { title?: string, children?: React.ReactNode }){
     return (
-        <Splitter.Panel className={styles.tab} defaultSize={taskTabWidth}>
+        <Splitter.Panel className={styles.tab} size={taskTabWidth}>
             <div className={styles.tabtop} style={{
                 top: 0,
                 height: headerSize
@@ -114,7 +115,7 @@ function TaskTab({ title="New Tab", children }: { title?: string, children?: Rea
     );
 }
 
-function Task({ title="New Task", taskTime=defaultTaskTime, children }: { title?: string, taskTime?: taskTimeI, children?: React.ReactNode }){
+function Task({ title="New Task", bgcolor="red", taskTime=defaultTaskTime, children }: { title?: string, bgcolor?: string, taskTime?: taskTimeI, children?: React.ReactNode }){
     // calculate if the provided taskTime is correct,
     // otherwise fallback to default
     if(!verifyTaskTime(taskTime)){
@@ -132,7 +133,8 @@ function Task({ title="New Task", taskTime=defaultTaskTime, children }: { title?
     return (
         <div className={styles.task} style={{
             top: top,
-            height: size
+            height: size,
+            backgroundColor: bgcolor
         }}>
             <h3>{ title }</h3>
             <p>{ children }</p>
@@ -148,7 +150,7 @@ function createTabsFromObject(tabs: taskTabI[]){
         {tabs.map((tab, tabIndex) => (
             <TaskTab key={tabIndex} title={tab.title ?? undefined}>
                 { tab.tasks?.map((task, taskIndex) => (
-                    <Task key={taskIndex} title={task.title ?? undefined} taskTime={task.taskTime ?? undefined}>
+                    <Task key={taskIndex} title={task.title ?? undefined} bgcolor={task.bgcolor ?? undefined} taskTime={task.taskTime ?? undefined}>
                         { task.desc }
                     </Task>
                 )) }

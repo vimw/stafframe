@@ -7,6 +7,7 @@ const taskTabs: taskTabI[] = [
             {
                 title: "Zrob nalesniki",
                 desc: "Zrobi naleśniki dobre napewno bla bla",
+                bgcolor: "red",
                 taskTime: {
                     hour: 8,
                     minute: 0,
@@ -16,6 +17,7 @@ const taskTabs: taskTabI[] = [
             {
                 title: "Pracuj",
                 desc: "Zaprogramuj widok grafiku",
+                bgcolor: "purple",
                 taskTime: {
                     hour: 9,
                     minute: 0,
