@@ -1,0 +1,85 @@
+.taskview {
+    box-sizing: border-box;
+
+    position: relative;
+
+    width: 100%;
+    height: 80vh;
+
+    overflow: scroll;
+    user-select: none;
+}
+
+.bg {
+    position: absolute;
+    z-index: -1;
+
+    width: 100%;
+
+    & div {
+        margin: 0;
+    }
+}
+
+.content {
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+.hourdisplay {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+
+    background-color: grey;
+    color: white;
+
+    & div {
+        padding: 0 0.4rem;
+    }
+}
+
+.tab {
+    position: relative;
+}
+
+.tabtop {
+    position: sticky;
+    z-index: 10;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+
+    color: white;
+    background-color: forestgreen;
+
+    border-radius: 0.8rem;
+}
+
+.tabtasks {
+    position: relative;
+
+    width: 100%;
+}
+
+.task {
+    position: absolute;
+    left: 5px;
+
+    display: flex;
+    flex-flow: column nowrap;
+
+    padding: 0 0.5rem;
+
+    width: calc(100% - 10px);
+
+    font-size: 1.2em;
+    color: white;
+
+    border-radius: 0.8rem;
+
+    overflow: hidden;
+}
