@@ -21,11 +21,10 @@ interface LeaveRequestsChartProps{
     title: string,
     labels: string[],
     dataValues: number[],
-    barColors?: string[]
 }
 
-const LeaveRequestsChart = ({title,labels,dataValues,barColors}: LeaveRequestsChartProps) => {
-    const options: {} = {
+const LeaveRequestsChart = ({title,labels,dataValues}: LeaveRequestsChartProps) => {
+    const options: object = {
         responsive: true,
     }
 

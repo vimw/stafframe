@@ -8,7 +8,6 @@ interface LeaveTypeSelectProps{
     handleFilterLeaveTypes: (leaveTypes: string[]) => void
 }
 
-const options: SelectProps['options'] = [];
 
 
 const LeaveTypeSelect = ({leaveTypes,handleFilterLeaveTypes}: LeaveTypeSelectProps) => {

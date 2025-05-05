@@ -1,6 +1,12 @@
 import React from 'react'
 
-const page = ({params: {id}}:any) => {
+interface PageProps {
+  params: {
+    id: string
+  }
+}
+
+const page = ({params: {id}}: PageProps) => {
   return (
     <div>{id}</div>
   )

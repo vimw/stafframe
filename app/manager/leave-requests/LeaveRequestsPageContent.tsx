@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styles from './LeaveRequestsPageContent.module.css'
 import RequestsStatusCard from './components/RequestsStatusCard/RequestsStatusCard';
 import LeaveRequestsChart from './components/LeaveRequestsChart/LeaveRequestsChart';
@@ -29,6 +29,8 @@ const LeaveRequestsPageContent = () => {
     const [archivedLeaveRequests,setArchivedLeaveRequests] = useState<LeaveRequest[][]>([])
     const [activeLeaveRequestsCount,setActiveLeaveRequestsCount] = useState<number>(0)
     const [archivedLeaveRequestsCount,setArchivedLeaveRequestsCount] = useState<number>(0)
+    const activeLeaveRequestsRef = useRef(activeLeaveRequests);
+    const archivedLeaveRequestsRef = useRef(archivedLeaveRequests);
 
     // Number of table rows displayed per page
     const pageSize = 6;
@@ -73,11 +75,19 @@ const LeaveRequestsPageContent = () => {
         setCurrentPage(1)
     }
 
+    useEffect(() => {
+        activeLeaveRequestsRef.current = activeLeaveRequests;
+      }, [activeLeaveRequests]);
+      
+      useEffect(() => {
+        archivedLeaveRequestsRef.current = archivedLeaveRequests;
+      }, [archivedLeaveRequests]);
+
     // fetch  leave requets
     useEffect(() => {
-        if (currentTab === 'Requests' && activeLeaveRequests[currentPage-1]){
+        if (currentTab === 'Requests' && activeLeaveRequestsRef.current[currentPage - 1]){
             return
-        } else if(currentTab === 'History' && archivedLeaveRequests[currentPage-1]) return
+        } else if(currentTab === 'History' && archivedLeaveRequestsRef.current[currentPage - 1]) return
 
         setLoading(true)
         const fetchData = async () => {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {LeftOutlined, RightOutlined} from '@ant-design/icons';
 import styles from './LeaveRequestsTableNavigation.module.css'
 

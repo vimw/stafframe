@@ -224,7 +224,17 @@ const mockArchivedLeaveRequests = [
   
 ];
 
-const paginateData = (data: any[], page: number, pageSize: number) => {
+interface data{
+    id:number
+    employeeName: string
+    employeeId: number
+    leaveType: string
+    startDate: string
+    endDate: string
+    status: string
+}
+
+const paginateData = (data: data[], page: number, pageSize: number) => {
     const start = (page - 1) * pageSize;
     const end = page * pageSize;
     return data.slice(start, end);

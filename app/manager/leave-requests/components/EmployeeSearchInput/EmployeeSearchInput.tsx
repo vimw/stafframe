@@ -3,7 +3,7 @@ import { Select, Spin, Avatar } from 'antd';
 import type { SelectProps } from 'antd';
 
 
-function debounce<T extends (...args: any[]) => void>(func: T, wait: number) {
+function debounce<T extends (...args: string[]) => void>(func: T, wait: number) {
   let timeout: ReturnType<typeof setTimeout>;
   return (...args: Parameters<T>) => {
     clearTimeout(timeout);
@@ -11,19 +11,21 @@ function debounce<T extends (...args: any[]) => void>(func: T, wait: number) {
   };
 }
 
-export interface DebounceSelectProps<ValueType = any>
+export interface DebounceSelectProps<ValueType = unknown>
   extends Omit<SelectProps<ValueType | ValueType[]>, 'options' | 'children'> {
   fetchOptions: (search: string) => Promise<ValueType[]>;
   debounceTimeout?: number;
 }
 
+type DefaultOptionType = {
+  key?: string;
+  label: React.ReactNode;
+  value: string | number;
+  avatar?: string;
+};
+
 function DebounceSelect<
-  ValueType extends {
-    key?: string;
-    label: React.ReactNode;
-    value: string | number;
-    avatar?: string;
-  } = any,
+  ValueType extends DefaultOptionType = DefaultOptionType
 >({ fetchOptions, debounceTimeout = 300, ...props }: DebounceSelectProps<ValueType>) {
   const [fetching, setFetching] = useState(false);
   const [options, setOptions] = useState<ValueType[]>([]);
