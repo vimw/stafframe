@@ -88,7 +88,7 @@ function Taskviewtimedisplay(){
             marginTop: headerSize
         }}>
             {Array.from({ length: boxNumber}).map((_, i) => {
-                let min = (i + hourRange.startAt) * (60 / hourRange.steps);
+                const min = (i + hourRange.startAt) * (60 / hourRange.steps);
                 return (
                     <div key={i} style={{
                         height: boxSize
@@ -128,7 +128,7 @@ function Task({ title="New Task", bgcolor="red", taskTime=defaultTaskTime, child
     top += taskTime.minute * (hourBoxSize / 60);
 
     // calculate the size
-    let size: number = taskTime.length * (hourBoxSize / 60);
+    const size: number = taskTime.length * (hourBoxSize / 60);
 
     return (
         <div className={styles.task} style={{
