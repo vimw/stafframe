@@ -1,4 +1,6 @@
 import React from 'react'
+import Header from './components/Header/Header'
+import styles from './page.module.css'
 
 interface PageProps {
   params: {
@@ -8,7 +10,11 @@ interface PageProps {
 
 const page = ({params: {id}}: PageProps) => {
   return (
-    <div>{id}</div>
+    <section className={styles.detailsContainer}>
+      <div className={styles.detailsContent}>
+        <Header/>
+      </div>
+    </section>
   )
 }
 
