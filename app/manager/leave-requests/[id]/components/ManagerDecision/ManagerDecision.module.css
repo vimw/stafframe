@@ -1,0 +1,99 @@
+.card {
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    width: 100%;
+    padding: 1.5rem;
+    margin-top: 2rem;
+    background-color: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  }
+  
+  .cardHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+  }
+  
+  .cardHeader h2 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+  }  
+  
+  .metaText {
+    color: #94A3B8;
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+  }
+
+.commentsHeader{
+    font-size: .9rem;
+}
+
+.textArea{
+    margin-top: 1rem;
+}
+
+.cardFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #e5e7eb;
+    padding-top: 1.5rem;
+    margin-top: 2rem;
+  }
+  
+  .cancelButton {
+    background: transparent;
+    border: 1px solid #d1d5db;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+  
+  .cancelButton:hover {
+    background: #f9fafb;
+  }
+  
+  .actionButtons {
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    color: white;
+  }
+  
+  .icon {
+    font-size: 1rem;
+    line-height: 1;
+  }
+  
+  .decline {
+    background-color: #F44336;
+  }
+  
+  .decline:hover {
+    background-color: #b91c1c;
+  }
+  
+  .approve {
+    background-color: #4CAF50;
+  }
+  
+  .approve:hover {
+    background-color: #15803d;
+  }
+  
