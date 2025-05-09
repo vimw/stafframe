@@ -1,4 +1,40 @@
+import { Task } from "./Task";
+import { TaskTab } from "./Taskview";
 import type { taskTabI } from "@/lib/tasks/TaskDefinitions"; // Use 'import type' for interfaces
+import { getCategoriesByNames } from "@/lib/tasks/getCategories";
+
+async function loadTaskTabs(taskTabs: taskTabI[]){
+    const distinctCategories = [
+        ...new Set(
+            taskTabs.flatMap(tab =>
+            (tab.tasks ?? []).map(task => task.category)
+            )
+        )
+    ];
+
+    const categoryStyles = await getCategoriesByNames(distinctCategories);
+
+    return (
+        <>
+        {taskTabs.map(tab => (
+        <TaskTab key={tab.title} title={tab.title}>
+          {(tab.tasks ?? []).map(task => (
+            <Task
+                key={task.title}
+                title={task.title}
+                category={task.category}
+                taskTime={task.taskTime}
+                bgColor={categoryStyles[task.category]?.bgColor}
+                color={categoryStyles[task.category]?.color}
+            >
+                {task.desc}
+            </Task>
+            ))}
+            </TaskTab>
+        ))}
+        </>
+    );
+}
 
 const taskTabs: taskTabI[] = [
     {
@@ -66,12 +102,5 @@ const taskTabs: taskTabI[] = [
     },
 ];
 
-const distinctCategories = [
-  ...new Set(
-    taskTabs.flatMap(tab =>
-      (tab.tasks ?? []).map(task => task.category)
-    )
-  )
-];
 
-export { taskTabs, distinctCategories };
+export { taskTabs, loadTaskTabs };
