@@ -16,4 +16,11 @@ interface taskTimeI {
     length: number
 }
 
-export type { taskTabI, taskI, taskTimeI };
+interface categoryI {
+    name: string,
+    desc?: string,
+    bgColor: string,
+    color: string
+}
+
+export type { taskTabI, taskI, taskTimeI, categoryI };

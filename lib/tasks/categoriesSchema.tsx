@@ -1,9 +1,10 @@
-import { Schema } from "mongoose";
+import { Schema, model } from "mongoose";
 
 const categoriesSchema = new Schema({
     name: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     desc: String,
     bgColor: {
@@ -13,3 +14,6 @@ const categoriesSchema = new Schema({
     color: String
 });
 
+const categoryModel = model("Category", categoriesSchema, "categories");
+
+export { categoryModel };

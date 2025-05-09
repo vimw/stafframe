@@ -66,4 +66,12 @@ const taskTabs: taskTabI[] = [
     },
 ];
 
-export default taskTabs;
+const distinctCategories = [
+  ...new Set(
+    taskTabs.flatMap(tab =>
+      (tab.tasks ?? []).map(task => task.category)
+    )
+  )
+];
+
+export { taskTabs, distinctCategories };
