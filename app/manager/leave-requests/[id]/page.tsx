@@ -11,7 +11,8 @@ interface PageProps {
   }
 }
 
-const page = ({params: {id}}: PageProps) => {
+const page = async ({params}: PageProps) => {
+  const {id} = await params
   return (
     <section className={styles.detailsContainer}>
       <div className={styles.detailsContent}>
