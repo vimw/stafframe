@@ -1,0 +1,22 @@
+.detailsContainer{
+    padding: 2rem 10px;
+}
+.detailsContent{
+    max-width: 1700px;
+    margin: 0 auto;
+}
+
+.detailsAndDecisionWrapper{
+    width: 70%;
+}
+
+
+
+.flexWrapper{
+    display: flex;
+    gap: 4rem;
+}
+
+.employeeInfo{
+    width: 30%;
+}
