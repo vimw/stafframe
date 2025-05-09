@@ -1,4 +1,4 @@
-import type { taskTabI } from "./Taskview"; // Use 'import type' for interfaces
+import type { taskTabI } from "@/lib/tasks/TaskDefinitions"; // Use 'import type' for interfaces
 
 const taskTabs: taskTabI[] = [
     {
