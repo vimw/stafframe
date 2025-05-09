@@ -5,13 +5,11 @@ import Details from './components/details/Details'
 import ManagerDecision from './components/ManagerDecision/ManagerDecision'
 import EmployeeInfo from './components/EmployeeInfo/EmployeeInfo'
 
-interface PageProps {
-  params: {
-    id: string
-  }
+interface Props {
+  params: Promise<{id: number}>
 }
 
-const page = async ({params}: PageProps) => {
+const page = async ({params}: Props) => {
   const {id} = await params
   return (
     <section className={styles.detailsContainer}>
