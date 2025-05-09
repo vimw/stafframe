@@ -1,10 +1,11 @@
-import { Taskview, TaskTab, Task, createTabsFromObject } from "./components/Taskview";
-import exampleTasks from "./components/ExampleTasks";
+import { Taskview, TaskTab } from "./components/Taskview";
+import { Task } from "@/app/components/Task";
+import { taskTabs, loadTaskTabs } from "./components/ExampleTasks";
 
-export default function Home() {
+export default async function Home() {
   return (
     <Taskview>
-      { createTabsFromObject(exampleTasks) }
+      {loadTaskTabs(taskTabs)}
     </Taskview>
   );
 }
