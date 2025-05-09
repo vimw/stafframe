@@ -1,5 +1,5 @@
 import React from "react";
-import { Splitter } from "antd";
+import { createContext, useMemo } from "react";
 import styles from "./Taskview.module.css";
 import { taskTabI, taskI, taskTimeI } from "@/lib/tasks/TaskDefinitions";
 
@@ -9,13 +9,24 @@ const hourRange = {
     steps: 2
 };
 
+// styles
+const taskViewPadding = 4;                                                                  // px
+const taskTabWidth = 600;                                                                   // px
+const headerSize = 64;                                                                      // px
+
 const hourBoxSize = 120;                                                                    // px
 const boxBorder = 1;                                                                        // px
-const boxSize = hourBoxSize / hourRange.steps;
+const boxSize = hourBoxSize / hourRange.steps;                                              // px
+
+const TaskStyles = createContext({
+    hourBoxSize: hourBoxSize,
+    boxBorder: boxBorder,
+    boxSize: boxSize
+});
+
+// misc
 const boxNumber = (hourRange.endAt - hourRange.startAt + 1) * hourRange.steps;
-const taskTabWidth = 600;                                                                   // px
-const taskViewPadding = 4;                                                                  // px
-const headerSize = 64;                                                                      // px
+
 
 function Taskview({ children }: { children?: React.ReactNode }){
     return (
@@ -35,11 +46,7 @@ function Taskview({ children }: { children?: React.ReactNode }){
             </div>
             <div className={styles.content}>
                 <Taskviewtimedisplay />
-                <Splitter style={{
-                    height: "auto"
-                }}>
-                    { children }
-                </Splitter>
+                { children }
             </div>
         </div>
     );
@@ -63,8 +70,19 @@ function Taskviewtimedisplay(){
 }
 
 function TaskTab({ title="New Tab", children }: { title?: string, children?: React.ReactNode }){
+    const styleVars = useMemo(
+        () => ({
+          hourBoxSize,
+          boxBorder,
+          boxSize
+        }),
+        [hourBoxSize, boxBorder, boxSize]
+      );
+
     return (
-        <Splitter.Panel className={styles.tab} defaultSize={taskTabWidth}>
+        <div style={{
+            width: taskTabWidth
+        }}>
             <div className={styles.tabtop} style={{
                 top: 0,
                 height: headerSize
@@ -72,12 +90,17 @@ function TaskTab({ title="New Tab", children }: { title?: string, children?: Rea
                 <h2>{ title }</h2>
             </div>
             <div className={styles.tabtasks}>
-                { children }
+                <TaskStyles.Provider value={styleVars}>
+                    { children }
+                </TaskStyles.Provider>
             </div>
-        </Splitter.Panel>
+        </div>
     );
 }
 
 
 // components
 export { Taskview, TaskTab };
+
+// misc
+export { TaskStyles }

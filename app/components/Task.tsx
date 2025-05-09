@@ -1,4 +1,6 @@
+import { useContext } from "react";
 import { taskI, taskTimeI } from "@/lib/tasks/TaskDefinitions";
+import { TaskStyles } from "./Taskview";
 import styles from "./Task.module.css";
 
 type taskProps = Omit<taskI, 'desc'> & {
@@ -33,6 +35,8 @@ function Task({ title, category, taskTime, children }: taskProps){
         taskTime = defaultTaskTime;
     }
 
+    const { hourBoxSize, boxBorder, boxSize } = useContext(TaskStyles);
+
     // calculate the top
     let top: number = 0;
     top += taskTime.hour * hourBoxSize;
@@ -45,7 +49,7 @@ function Task({ title, category, taskTime, children }: taskProps){
         <div className={styles.task} style={{
             top: top,
             height: size,
-            backgroundColor: bgcolor
+            backgroundColor: "red"
         }}>
             <h3>{ title }</h3>
             <p>{ children }</p>
