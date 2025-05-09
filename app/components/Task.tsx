@@ -48,7 +48,7 @@ function Task({ title, category, taskTime, bgColor, color, children }: taskProps
     top += taskTime.minute * (hourBoxSize / 60);
 
     // calculate the size
-    let size: number = taskTime.length * (hourBoxSize / 60);
+    const size: number = taskTime.length * (hourBoxSize / 60);
 
     return (
         <div className={styles.task} style={{

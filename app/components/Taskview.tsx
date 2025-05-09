@@ -60,7 +60,7 @@ function Taskviewtimedisplay(){
             marginTop: headerSize
         }}>
             {Array.from({ length: boxNumber}).map((_, i) => {
-                let min = (i + hourRange.startAt) * (60 / hourRange.steps);
+                const min = (i + hourRange.startAt) * (60 / hourRange.steps);
                 return (
                     <div key={i} style={{
                         height: boxSize
