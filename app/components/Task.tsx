@@ -1,3 +1,5 @@
+"use client";
+
 import { useContext } from "react";
 import { taskI, taskTimeI } from "@/lib/tasks/TaskDefinitions";
 import { TaskStyles } from "./Taskview";
@@ -5,6 +7,9 @@ import styles from "./Task.module.css";
 
 type taskProps = Omit<taskI, 'desc'> & {
     children?: taskI['desc']
+} & {
+    bgColor?: string,
+    color?: string
 }
 
 // niby niepotrzebne lecz dla blednych danych jakis fallback
@@ -28,7 +33,7 @@ function verifyTaskTime(taskTime: taskTimeI){
     return true;
 }
 
-function Task({ title, category, taskTime, children }: taskProps){
+function Task({ title, category, taskTime, bgColor, color, children }: taskProps){
     // calculate if the provided taskTime is correct,
     // otherwise fallback to default
     if(!verifyTaskTime(taskTime)){
@@ -49,9 +54,11 @@ function Task({ title, category, taskTime, children }: taskProps){
         <div className={styles.task} style={{
             top: top,
             height: size,
-            backgroundColor: "red"
+            backgroundColor: bgColor ?? "red",
+            color: color ?? "white"
         }}>
             <h3>{ title }</h3>
+            <p>{ category }</p>
             <p>{ children }</p>
         </div>
     );

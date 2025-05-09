@@ -1,10 +1,15 @@
-import { Taskview, TaskTab, Task, createTabsFromObject } from "./components/Taskview";
+import { Taskview, TaskTab } from "./components/Taskview";
+import { Task } from "@/app/components/Task";
 import exampleTasks from "./components/ExampleTasks";
 
 export default function Home() {
   return (
     <Taskview>
-      { createTabsFromObject(exampleTasks) }
+      <TaskTab>
+        <Task title="Śniadanie" category="Work" taskTime={{hour: 8, minute: 0, length: 60}}>
+          Opis
+        </Task>
+      </TaskTab>
     </Taskview>
   );
 }

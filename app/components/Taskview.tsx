@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { createContext, useMemo } from "react";
 import styles from "./Taskview.module.css";
@@ -11,7 +13,7 @@ const hourRange = {
 
 // styles
 const taskViewPadding = 4;                                                                  // px
-const taskTabWidth = 600;                                                                   // px
+const taskTabWidth = 400;                                                                   // px
 const headerSize = 64;                                                                      // px
 
 const hourBoxSize = 120;                                                                    // px
