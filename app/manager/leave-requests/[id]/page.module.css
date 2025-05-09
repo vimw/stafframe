@@ -7,5 +7,16 @@
 }
 
 .detailsAndDecisionWrapper{
-    width: 60%;
+    width: 70%;
+}
+
+
+
+.flexWrapper{
+    display: flex;
+    gap: 4rem;
+}
+
+.employeeInfo{
+    width: 30%;
 }
