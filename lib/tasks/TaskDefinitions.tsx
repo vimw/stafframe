@@ -6,7 +6,7 @@ interface taskTabI {
 interface taskI {
     title: string,
     desc?: string,
-    category?: string,
+    category: string,
     taskTime: taskTimeI
 }
 
