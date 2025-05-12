@@ -56,16 +56,21 @@ function Taskview({ children }: { children?: React.ReactNode }){
 }
 
 function Taskviewtimedisplay(){
+    const arr = new Array(boxNumber);
+    const interval = 60 / hourRange.steps;
+
     return (
         <div className={styles.hourdisplay} style={{
             marginTop: headerSize
         }}>
             {Array.from({ length: boxNumber}).map((_, i) => {
-                const min = (i + hourRange.startAt) * (60 / hourRange.steps);
+                const totalMin = hourRange.startAt * 60 + i * interval;
+                const H = Math.floor(totalMin / 60);
+                const M = Math.floor(totalMin % 60).toString().padStart(2, "0");
                 return (
-                    <div key={i} style={{
-                        height: boxSize
-                    }}>{Math.floor(min/60)}:{min%60 < 10 ? `0${min%60}` : min%60}</div>
+                    <div key={i} style={{ height: boxSize }}>
+                        {H}:{M}
+                    </div>
                 );
             })}
         </div>
