@@ -1,5 +1,6 @@
 "use client";
 
+import conf from "@/config";
 import { useContext } from "react";
 import { taskI, taskTimeI } from "@/lib/tasks/TaskDefinitions";
 import { TaskStyles } from "./Taskview";
@@ -14,14 +15,14 @@ type taskProps = Omit<taskI, 'desc'> & {
 
 // niby niepotrzebne lecz dla blednych danych jakis fallback
 const defaultTaskTime: taskTimeI = {
-    hour: 8,
+    hour: conf.hourRange.startAt ?? 0,
     minute: 0,
     length: 60
 }
 
 function verifyTaskTime(taskTime: taskTimeI){
     // verify if its in hourRange
-    if(taskTime.hour < 0 || taskTime.hour > 23){
+    if(taskTime.hour < (conf.hourRange.startAt ?? 0) || taskTime.hour > (conf.hourRange.endAt ?? 23)){
         return false;
     }
 

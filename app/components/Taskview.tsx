@@ -1,14 +1,15 @@
 "use client";
 
+import conf from "@/config";
 import React from "react";
 import { createContext, useMemo } from "react";
 import styles from "./Taskview.module.css";
 import { taskTabI, taskI, taskTimeI } from "@/lib/tasks/TaskDefinitions";
 
 const hourRange = {
-    startAt: 0,
-    endAt: 23,
-    steps: 2
+    startAt: conf.hourRange.startAt ?? 0,
+    endAt: conf.hourRange.endAt ?? 23,
+    steps: conf.hourRange.steps ?? 2
 };
 
 // styles
