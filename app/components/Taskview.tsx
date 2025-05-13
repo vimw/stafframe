@@ -56,7 +56,6 @@ function Taskview({ children }: { children?: React.ReactNode }){
 }
 
 function Taskviewtimedisplay(){
-    const arr = new Array(boxNumber);
     const interval = 60 / hourRange.steps;
 
     return (
@@ -88,7 +87,7 @@ function TaskTab({ title="New Tab", children }: { title?: string, children?: Rea
       );
 
     return (
-        <div style={{
+        <div className={styles.tab} style={{
             width: taskTabWidth
         }}>
             <div className={styles.tabtop} style={{

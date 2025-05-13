@@ -41,6 +41,8 @@
 
 .tab {
     position: relative;
+
+    margin-left: 0.5rem;
 }
 
 .tabtop {
@@ -56,7 +58,7 @@
     color: white;
     background-color: forestgreen;
 
-    border-radius: 0.8rem;
+    border-radius: 0;
 }
 
 .tabtasks {

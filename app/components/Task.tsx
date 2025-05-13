@@ -45,7 +45,7 @@ function Task({ title, category, taskTime, bgColor, color, children }: taskProps
 
     // calculate the top
     let top: number = 0;
-    top += taskTime.hour * hourBoxSize;
+    top += (taskTime.hour - conf.hourRange.startAt) * hourBoxSize;
     top += taskTime.minute * (hourBoxSize / 60);
 
     // calculate the size
