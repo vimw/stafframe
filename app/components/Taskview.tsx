@@ -1,14 +1,15 @@
 "use client";
 
+import conf from "@/config";
 import React from "react";
 import { createContext, useMemo } from "react";
 import styles from "./Taskview.module.css";
 import { taskTabI, taskI, taskTimeI } from "@/lib/tasks/TaskDefinitions";
 
 const hourRange = {
-    startAt: 0,
-    endAt: 23,
-    steps: 2
+    startAt: conf.hourRange.startAt ?? 0,
+    endAt: conf.hourRange.endAt ?? 23,
+    steps: conf.hourRange.steps ?? 2
 };
 
 // styles
@@ -55,16 +56,20 @@ function Taskview({ children }: { children?: React.ReactNode }){
 }
 
 function Taskviewtimedisplay(){
+    const interval = 60 / hourRange.steps;
+
     return (
         <div className={styles.hourdisplay} style={{
             marginTop: headerSize
         }}>
             {Array.from({ length: boxNumber}).map((_, i) => {
-                const min = (i + hourRange.startAt) * (60 / hourRange.steps);
+                const totalMin = hourRange.startAt * 60 + i * interval;
+                const H = Math.floor(totalMin / 60);
+                const M = Math.floor(totalMin % 60).toString().padStart(2, "0");
                 return (
-                    <div key={i} style={{
-                        height: boxSize
-                    }}>{Math.floor(min/60)}:{min%60 < 10 ? `0${min%60}` : min%60}</div>
+                    <div key={i} style={{ height: boxSize }}>
+                        {H}:{M}
+                    </div>
                 );
             })}
         </div>
@@ -82,7 +87,7 @@ function TaskTab({ title="New Tab", children }: { title?: string, children?: Rea
       );
 
     return (
-        <div style={{
+        <div className={styles.tab} style={{
             width: taskTabWidth
         }}>
             <div className={styles.tabtop} style={{
