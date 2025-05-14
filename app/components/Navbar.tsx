@@ -1,9 +1,17 @@
+'use client'
 import Link from 'next/link'
 import styles from './Navbar.module.css'
 import Image from 'next/image'
 import NavbarDropdownMenu from './NavbarDropdownMenu'
+import { usePathname } from 'next/navigation'
 
 const Navbar = () => {
+  const pathname = usePathname()
+
+  if (pathname === '/login'){
+    return <></>
+  }
+
   return (
     <nav className={styles.nav}>
       <div className={styles.navContent}>
