@@ -5,6 +5,7 @@ import styles from './Navbar.module.css'
 import { DownOutlined, SettingOutlined, RightOutlined,UpOutlined,LogoutOutlined } from '@ant-design/icons';
 import { Dropdown, MenuProps} from 'antd';
 import Link from 'next/link';
+import { logout } from '../(auth)/login/actions';
 
 const items: MenuProps['items'] = [
   {
@@ -31,7 +32,7 @@ const items: MenuProps['items'] = [
   },
   {
     label: (
-        <Link href='/' className={styles.dropDownMenuLink}>
+        <Link href='/' onClick={() => logout()} className={styles.dropDownMenuLink}>
             <LogoutOutlined />
             <span className={styles.labelText}>Logout</span>
             <RightOutlined className={styles.arrowIcon}/>
@@ -45,13 +46,9 @@ const items: MenuProps['items'] = [
 const NavbarDropdownMenu: React.FC = () => {
     const [collapsed,setCollapsed] = useState(true) 
 
-    function toggleCollapsed(){
-        setCollapsed(!collapsed)
-    }
-
     return(
         <Dropdown
-        onOpenChange={() => toggleCollapsed()}
+        onOpenChange={(open) => setCollapsed(!open)}
         overlayStyle={{
             width: '300px',
             minWidth: '300px',
@@ -61,7 +58,7 @@ const NavbarDropdownMenu: React.FC = () => {
         }}
         menu={{ items }}
         trigger={['click']}>
-            <a onClick={(e) => e.preventDefault}>
+            <a onClick={(e) => e.preventDefault()}>
                 {collapsed ? <DownOutlined/> : <UpOutlined/>}
             </a>
         </Dropdown>
