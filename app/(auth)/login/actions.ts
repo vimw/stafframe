@@ -6,6 +6,7 @@ import { createSession, deleteSession } from "@/lib/session";
 import { connectDB } from '@/lib/db/db'
 import bcrypt from 'bcrypt'
 import User from '@/models/User'
+import sanitize from 'mongo-sanitize'
 
 
 const loginSchema = z.object({
@@ -24,7 +25,8 @@ export async function login(prevState: any, formData: FormData) {
     };
   }
 
-  const {email,password} = result.data
+  let {email,password} = result.data
+  email = sanitize(email)
 
   await connectDB()
   const user = await User.findOne({email})
