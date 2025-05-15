@@ -252,10 +252,10 @@ export async function GET(request: Request) {
     let filteredLeaveRequests
     
     if(status === 'archived'){
-        filteredLeaveRequests = await getLeaveRequests();
+        filteredLeaveRequests = await getArchivedLeaveRequests();
     } else {
         
-        filteredLeaveRequests = await getArchivedLeaveRequests();
+        filteredLeaveRequests = await getLeaveRequests();
     }
 
     if (employees.length > 0){
