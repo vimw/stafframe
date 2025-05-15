@@ -1,0 +1,23 @@
+.actionButton {
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid #d1d5db;
+  background-color: white;
+  transition: all 0.2s;
+}
+
+.actionButton:hover {
+  background-color: #f9fafb;
+}
+
+.deleteButton {
+  color: #b91c1c;
+  border-color: #fecaca;
+}
+
+.deleteButton:hover {
+  background-color: #fee2e2;
+}

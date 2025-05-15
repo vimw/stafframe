@@ -1,4 +1,5 @@
 import React from 'react'
+import styles from './ActionButton.module.css'
 
 interface ActionButtonProps{
     action: "Edit" | "Delete"
@@ -6,7 +7,7 @@ interface ActionButtonProps{
 
 const ActionButton = ({action}: ActionButtonProps) => {
   return (
-    <button>
+    <button className={`${styles.actionButton} ${action === 'Delete' ? styles.deleteButton: ''}`}>
         {action}
     </button>
   )
