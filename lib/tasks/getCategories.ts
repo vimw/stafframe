@@ -1,9 +1,9 @@
-import { categoryModel } from "@/lib/tasks/categoriesSchema"
+import { CategoryModel } from "@/lib/tasks/categoriesSchema"
 import { connectDB } from "../db/db";
 
 async function getCategoriesByNames(names: string[]) {
     await connectDB();
-    const categories = await categoryModel.find({
+    const categories = await CategoryModel.find({
         name: { $in: names }
     }).exec();
 
