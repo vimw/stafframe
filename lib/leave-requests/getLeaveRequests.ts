@@ -1,6 +1,6 @@
 import { connectDB } from "../db/db";
 import { leaveRequestI } from "./LeaveRequestDefinitions";
-import { LeaveRequestModel, ArchiveLeaveRequestModel } from "@/models/leaveRequestSchema";
+import { LeaveRequestModel, ArchiveLeaveRequestModel } from "@/models/LeaveRequest";
 
 async function getLeaveRequests() {
     await connectDB();

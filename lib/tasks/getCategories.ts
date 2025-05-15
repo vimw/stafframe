@@ -1,4 +1,4 @@
-import { CategoryModel } from "@/models/categoriesSchema"
+import { CategoryModel } from "@/models/Categories"
 import { connectDB } from "../db/db";
 
 async function getCategoriesByNames(names: string[]) {
