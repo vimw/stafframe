@@ -1,4 +1,4 @@
-import { CategoryModel } from "@/lib/tasks/categoriesSchema"
+import { CategoryModel } from "@/models/categoriesSchema"
 import { connectDB } from "../db/db";
 
 async function getCategoriesByNames(names: string[]) {

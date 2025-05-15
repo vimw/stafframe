@@ -16,6 +16,11 @@ const taskTimeSchema = new Schema({
     }
 });
 
+const taskSchemaOptions = {
+    discriminatorKey: "recurring",
+    collection: "tasks"
+}
+
 const taskSchema = new Schema({
     title: {
         type: String,
@@ -29,5 +34,13 @@ const taskSchema = new Schema({
     taskTime: {
         type: taskTimeSchema,
         required: true
+    },
+    targetType: {
+        type: String,
+        required: true
+    },
+    targetIds: {
+        type: [String],
+        required: true
     }
-});
+}, taskSchemaOptions);
