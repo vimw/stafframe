@@ -1,5 +1,5 @@
 // task schema ma wygladac tak samo jak taskI
-import { Schema } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const taskTimeSchema = new Schema({
     hour: {
@@ -40,7 +40,27 @@ const taskSchema = new Schema({
         required: true
     },
     targetIds: {
-        type: [String],
+        type: [mongoose.Schema.Types.ObjectId],
         required: true
     }
 }, taskSchemaOptions);
+
+const recurringTaskSchema = new Schema({
+    dayInterval: {
+        type: Number,
+        required: true
+    },
+    count: {
+        type: Number,
+        required: true
+    }
+});
+
+const TaskModel = mongoose.models.Task || mongoose.model("Task", taskSchema);
+
+const RecurringTaskModel = TaskModel.discriminator(
+    "true",
+    recurringTaskSchema
+);
+
+export { TaskModel, RecurringTaskModel }
