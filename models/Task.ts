@@ -53,6 +53,10 @@ const recurringTaskSchema = new Schema({
     count: {
         type: Number,
         required: true
+    },
+    resetOnStart: {
+        type: Boolean,
+        required: true
     }
 });
 
