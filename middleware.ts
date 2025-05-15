@@ -15,7 +15,7 @@ export default async function middleware(req: NextRequest) {
 
   const isProtectedRoute =
     path === "/" ||
-    path.startsWith("/manager/leave-requests");
+    path.startsWith("/manager");
 
   if (isProtectedRoute && !isAuthenticated) {
     return NextResponse.redirect(new URL("/login", req.nextUrl));
