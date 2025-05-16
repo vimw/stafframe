@@ -43,6 +43,12 @@ Stafframe provides a clear, time-based visual interface for managers to assign t
 
 ---
 
+## Credentials
+
+email: admin@stafframe.com
+password: 12345678
+
+---
 
 ## License 📄
 
