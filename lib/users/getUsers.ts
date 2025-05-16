@@ -12,3 +12,5 @@ async function getUsernameById(id: string){
 
     return null;
 }
+
+export { getUsernameById };

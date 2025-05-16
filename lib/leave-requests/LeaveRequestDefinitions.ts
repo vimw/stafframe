@@ -1,10 +1,13 @@
 interface leaveRequestI {
-    id: number,
-    userId: number,
+    userId: any,
     leaveType: string,
     startDate: string,
     endDate: string,
     status: string
 }
 
-export type { leaveRequestI };
+interface fullLeaveRequestI extends leaveRequestI {
+    name: string | null
+}
+
+export type { leaveRequestI, fullLeaveRequestI };
