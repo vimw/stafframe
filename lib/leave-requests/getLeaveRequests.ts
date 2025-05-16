@@ -7,18 +7,18 @@ async function getLeaveRequests() {
     await connectDB();
     const leaveRequests = await LeaveRequestModel.find({}).exec();
 
-    const enrichedLeaveRequests = await enrichLeaveRequests(leaveRequests);
+    const enrichedLeaveRequests = await enrichLeaveRequests(leaveRequests as leaveRequestI[]);
 
-    return enrichLeaveRequests;
+    return enrichedLeaveRequests as fullLeaveRequestI[];
 }
 
 async function getArchivedLeaveRequests() {
     await connectDB();
     const archivedLeaveRequests = await ArchiveLeaveRequestModel.find({}).exec();
 
-    const enrichedLeaveRequests = await enrichLeaveRequests(archivedLeaveRequests);
+    const enrichedLeaveRequests = await enrichLeaveRequests(archivedLeaveRequests as leaveRequestI[]);
 
-    return enrichedLeaveRequests;
+    return enrichedLeaveRequests as fullLeaveRequestI[];
 }
 
 async function enrichLeaveRequests(leaveRequests: leaveRequestI[]) {
@@ -41,10 +41,11 @@ async function enrichLeaveRequests(leaveRequests: leaveRequestI[]) {
         return {
             ...obj,
             name: nameValue,
-        };
+        } as fullLeaveRequestI;
     });
 
-    return enrichedRequests;
+    const enriched = await Promise.all(enrichedRequests);
+    return enriched;
 }
 
 export { getLeaveRequests, getArchivedLeaveRequests };

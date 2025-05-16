@@ -1,4 +1,5 @@
 interface leaveRequestI {
+    _id: any,
     userId: any,
     leaveType: string,
     startDate: string,
