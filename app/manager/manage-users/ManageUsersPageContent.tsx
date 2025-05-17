@@ -41,6 +41,8 @@ const ManageUsersPageContent = () => {
     const isNextDisabled = currentPage * pageSize >= usersCount;
 
     useEffect(() => {
+      if(users[currentPage]) return
+      
       setLoading(true)
       const fetchData = async () => {
         const {paginatedUsers,totalCount} = await fetchUsers(filteredEmployees,currentPage,pageSize)
