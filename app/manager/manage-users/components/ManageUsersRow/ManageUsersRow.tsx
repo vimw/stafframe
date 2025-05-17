@@ -9,18 +9,19 @@ interface ManageUserRowProps{
     email: string,
     department:string,
     position: string,
+    joinDate:string
   }
-  columnCount: number
 }
 
-const LeaveRequestRow = ({user,columnCount}: ManageUserRowProps) => {
+const LeaveRequestRow = ({user}: ManageUserRowProps) => {
   return (
     <tr key={user.id} className={styles.row}>
-      <td style={{ width: `${100 / columnCount}%` }} className={styles.td}>{user.name}</td>
-      <td style={{ width: `${100 / columnCount}%` }} className={styles.td}>{user.email}</td>
-      <td style={{ width: `${100 / columnCount}%` }} className={styles.td}>{user.department}</td>
-      <td style={{ width: `${100 / columnCount}%` }} className={styles.td}>{user.position}</td>
-      <td style={{ width: `${100 / columnCount}%` }} className={`${styles.td} ${styles.actionButtons}`}>
+      <td className={styles.td}>{user.name}</td>
+      <td className={styles.td}>{user.email}</td>
+      <td className={styles.td}>{user.department}</td>
+      <td className={styles.td}>{user.position}</td>
+      <td className={styles.td}>{user.joinDate}</td>
+      <td className={`${styles.td} ${styles.actionButtons}`}>
         <ActionButton action='Edit'/>
         <ActionButton action='Delete'/>
       </td>
