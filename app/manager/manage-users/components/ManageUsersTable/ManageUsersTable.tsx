@@ -9,6 +9,7 @@ interface Users{
     email: string,
     department:string,
     position: string,
+    joinDate: string
 }
 
 interface ManageUsersTableProps{
@@ -31,7 +32,7 @@ const ManageUsersTable = ({header,data}: ManageUsersTableProps) => {
         </thead>
         <tbody>
           {data.map((user) => (
-            <ManageUsersRow key={user.id} user={user} columnCount={data.length} />
+            <ManageUsersRow key={user.id} user={user} />
           ))}
         </tbody>
       </table>
