@@ -20,7 +20,7 @@ interface categoryI {
     name: string,
     desc?: string,
     bgColor: string,
-    color: string
+    color?: string
 }
 
 export type { taskTabI, taskI, taskTimeI, categoryI };

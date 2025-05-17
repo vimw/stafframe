@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getLeaveRequests, getArchivedLeaveRequests } from '@/lib/leave-requests/getLeaveRequests';
+import { fullLeaveRequestI } from '@/lib/leave-requests/LeaveRequestDefinitions';
 
 // const mockActiveLeaveRequests = [
 //     {
@@ -225,17 +226,17 @@ import { getLeaveRequests, getArchivedLeaveRequests } from '@/lib/leave-requests
   
 // ];
 
-interface data{
-    id: number
-    // employeeName: string
-    userId: number
-    leaveType: string
-    startDate: string
-    endDate: string
-    status: string
-}
+// interface data{
+//     id: number
+//     userId: number
+//     leaveType: string
+//     startDate: string
+//     endDate: string
+//     status: string
+//     name: string
+// }
 
-const paginateData = (data: data[], page: number, pageSize: number) => {
+const paginateData = (data: fullLeaveRequestI[], page: number, pageSize: number) => {
     const start = (page - 1) * pageSize;
     const end = page * pageSize;
     return data.slice(start, end);
