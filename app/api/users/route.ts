@@ -33,24 +33,21 @@ const paginateData = (data: data[], page: number, pageSize: number) => {
 
 export async function GET(request: Request){
     const { searchParams } = new URL(request.url)
-    const search = searchParams.get('search')?.toLowerCase() || '';
+    const search = searchParams.getAll('search') || '';
     const page = parseInt(searchParams.get('page') || '1',10)
-    const pageSize = searchParams.get('pageSize') ? parseInt(searchParams.get('pageSize') || '1',10) : null
+    const pageSize = parseInt(searchParams.get('pageSize') || '1',10)
+    
+    let filtered = mockUsers
 
-    if(!pageSize && search.trim() === ''){
-        return NextResponse.json([])
+    if(search.length > 0){
+        filtered = filtered.filter((user) => 
+            search.includes(user.id)
+        )
     }
 
-    const filtered = mockUsers.filter((user) => 
-        user.name.toLowerCase().includes(search)
-    )
-    if(!pageSize){
-        return NextResponse.json(filtered)
-    } else {
-        const paginatedUsers = paginateData(filtered,page,pageSize)
-        return NextResponse.json({
+    const paginatedUsers = paginateData(filtered,page,pageSize)
+    return NextResponse.json({
             paginatedUsers,
             totalCount: filtered.length
-        })
-    }
+    })
 }
