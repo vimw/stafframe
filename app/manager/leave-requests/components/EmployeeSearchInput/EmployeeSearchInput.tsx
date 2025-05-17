@@ -74,7 +74,7 @@ interface UserValue {
 
 async function fetchUserList(username: string): Promise<UserValue[]> {
   console.log('fetching user', username);
-  return fetch(`/api/users?search=${username}`)
+  return fetch(`/api/employee-search?search=${username}`)
     .then((res) => res.json())
     .then((res) => {
       const results = Array.isArray(res) ? res : [];
