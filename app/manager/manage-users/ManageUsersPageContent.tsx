@@ -4,6 +4,7 @@ import styles from './ManageUsersPageContent.module.css'
 import EmployeeSearchInput from '../leave-requests/components/EmployeeSearchInput/EmployeeSearchInput'
 import ManageUsersTable from './components/ManageUsersTable/ManageUsersTable'
 import { fetchUsers } from './lib/users'
+import ManageUsersTableSkeleton from './components/ManageUsersTableSkeleton/ManageUsersTableSkeleton'
 
 
 interface User{
@@ -39,6 +40,7 @@ const ManageUsersPageContent = () => {
 
     function handleFilterEmployees(users: string[]){
         setFilteredEmployees(users)
+        setUsers([])
     }
   
   return (
@@ -52,7 +54,9 @@ const ManageUsersPageContent = () => {
               <EmployeeSearchInput handleFilterEmployees={handleFilterEmployees}/>
             </div>
             <div className={styles.manageUsersTable}>
-              {loading || !users[currentPage-1] ? null: (
+              {loading || !users[currentPage-1] ? (
+                <ManageUsersTableSkeleton />
+              ): (
                   <ManageUsersTable header={["Name","Email","Department","Position","Join Date","Actions"]} data={users[currentPage-1]}/>
               )}
             </div>
