@@ -5,6 +5,7 @@ import EmployeeSearchInput from '../leave-requests/components/EmployeeSearchInpu
 import ManageUsersTable from './components/ManageUsersTable/ManageUsersTable'
 import { fetchUsers } from './lib/users'
 import ManageUsersTableSkeleton from './components/ManageUsersTableSkeleton/ManageUsersTableSkeleton'
+import LeaveRequestsTableNavigation from '../leave-requests/components/LeaveRequestsTableNavigation/LeaveRequestsTableNavigation'
 
 
 interface User{
@@ -25,6 +26,19 @@ const ManageUsersPageContent = () => {
     const [loading,setLoading] = useState<boolean>(true)
 
     const pageSize = 6
+
+    function handleNextPageClick() {
+        setCurrentPage(currentPage+1)
+    }
+    function handlePreviousPageClick() {
+        setCurrentPage(currentPage-1)
+    }
+
+    const startItem = (currentPage - 1) * pageSize + 1;
+    const endItem = Math.min(currentPage * pageSize, usersCount);
+
+    const isPreviousDisabled = currentPage === 1;
+    const isNextDisabled = currentPage * pageSize >= usersCount;
 
     useEffect(() => {
       setLoading(true)
@@ -52,6 +66,11 @@ const ManageUsersPageContent = () => {
             </div>
             <div className={styles.filters}>
               <EmployeeSearchInput handleFilterEmployees={handleFilterEmployees}/>
+            </div>
+            <div className={styles.tableNavigation}>
+                {!loading && (
+                    <LeaveRequestsTableNavigation handlePreviousPageClick={handlePreviousPageClick} handleNextPageClick={handleNextPageClick} leaveRequestsCount={usersCount} startItem={startItem} endItem={endItem} isPreviousDisabled={isPreviousDisabled} isNextDisabled={isNextDisabled}/>
+                )}
             </div>
             <div className={styles.manageUsersTable}>
               {loading || !users[currentPage-1] ? (

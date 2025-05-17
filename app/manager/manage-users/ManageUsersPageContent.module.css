@@ -21,5 +21,14 @@
 .filters{
     display: flex;
     margin-top: 2rem;
-    margin-bottom: 5rem;
+}
+
+.manageUsersTable{
+    margin-top: 5rem;
+}
+
+.tableNavigation{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
 }
