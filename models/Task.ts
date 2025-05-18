@@ -32,11 +32,7 @@ const taskSchema = new Schema({
         required: true
     },
     taskStart: {
-        day: {
-            type: Number,
-            required: true
-        },
-        month: {
+        yday: {
             type: Number,
             required: true
         }
