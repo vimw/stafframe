@@ -6,6 +6,11 @@ interface User{
   department:string,
   position:string,
   joinDate:string
+  leaveBalance: {
+    annual: number
+    sick: number
+    personal: number
+  }
 }
 
 interface paginatedUsersResponse {
