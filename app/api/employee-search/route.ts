@@ -1,32 +1,42 @@
 import { NextResponse } from 'next/server';
-
-const mockUsers = [
-  { id: '1', name: 'Anna Kowalska', avatar: '/profile_picture.jpg' },
-  { id: '2', name: 'Jan Nowak', avatar: '/profile_picture.jpg' },
-  { id: '3', name: 'Piotr Zieliński', avatar: '/profile_picture.jpg' },
-  { id: '4', name: 'Maria Wiśniewska', avatar: '/profile_picture.jpg' },
-  { id: '5', name: 'Tomasz Kaczmarek', avatar: '/profile_picture.jpg' },
-  { id: '6', name: 'Katarzyna Wójcik', avatar: '/profile_picture.jpg' },
-  { id: '7', name: 'Michał Lewandowski', avatar: '/profile_picture.jpg' },
-  { id: '8', name: 'Natalia Kamińska', avatar: '/profile_picture.jpg' },
-  { id: '9', name: 'Adam Nowicki', avatar: '/profile_picture.jpg' },
-  { id: '10', name: 'Ewa Mazur', avatar: '/profile_picture.jpg' },
-  { id: '11', name: 'Kamil Dąbrowski', avatar: '/profile_picture.jpg' },
-  { id: '12', name: 'Agnieszka Piotrowska', avatar: '/profile_picture.jpg' },
-
-];
+import { connectDB } from '@/lib/db/db';
+import User from '@/models/User';
 
 export async function GET(request: Request){
     const { searchParams } = new URL(request.url)
     const search = searchParams.get('search')?.toLowerCase() || '';
-
+    
     if(search.trim() === ''){
         return NextResponse.json([])
     }
 
-    const filtered = mockUsers.filter((user) => 
-        user.name.toLowerCase().includes(search)
-    )
+    try{
+        await connectDB()
 
-    return NextResponse.json(filtered)
+        const query = {
+            name: {$regex: search,$options: 'i'}
+        }
+
+        const users = await User.find(query)
+            .lean()
+            .select('-password')
+
+        const formattedUsers = users.map((user) => ({
+            name: user.name,
+            id: user._id,
+            avatar: user.avatar
+        }))
+
+        return new NextResponse(JSON.stringify(formattedUsers), {
+        status: 200,
+        headers: {
+            'Content-Type': 'application/json',
+            'Cache-Control': 'public, max-age=60'
+        }
+        })
+
+    } catch (error){
+        console.error('Error fetching users:', error);
+        return NextResponse.json({ error: 'Server error' }, { status: 500 });
+    }
 }
