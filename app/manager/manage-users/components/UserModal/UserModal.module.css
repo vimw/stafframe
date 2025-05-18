@@ -130,3 +130,9 @@
 .saveButton:hover {
   background-color: #4338ca;
 }
+
+.fieldError {
+  color: #d9534f;
+  font-size: 0.875rem;
+  margin-top: 4px;
+}

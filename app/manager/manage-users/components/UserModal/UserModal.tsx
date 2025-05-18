@@ -13,7 +13,8 @@ interface User{
         annual: number
         sick: number
         personal: number
-    }
+    },
+    password? : string
 }
 
 interface UserModalProps {
@@ -34,8 +35,10 @@ const UserModal = ({user,onClose,departments} : UserModalProps) => {
         annual: 15,
         sick: 10,
         personal: 3
-    }
+    },
+    password: ''
   })
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({})
 
   useEffect(() => {
     if(user){
@@ -53,7 +56,7 @@ const UserModal = ({user,onClose,departments} : UserModalProps) => {
             ...formData,
             leaveBalance: {
                 ...formData.leaveBalance,
-                [child]: value
+                [child]: Number(value)
             }
         })
     } else {
@@ -64,6 +67,31 @@ const UserModal = ({user,onClose,departments} : UserModalProps) => {
     }
   }
 
+  async function handleSubmit(e: React.FormEvent){
+    e.preventDefault()
+    setFieldErrors({})
+    try{
+        const response = await fetch('/api/users', {
+            method: user ? 'PUT' : 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        })
+        const data = await response.json()
+        if (!response.ok) {
+            if (data.errors) {
+                setFieldErrors(data.errors)
+            }
+            return
+        }
+        onClose()
+
+    } catch(error){
+        console.error('Request failed:', error)
+    }
+  }
+
   return (
     <div className={styles.modalOverlay}>
         <div className={styles.modal}>
@@ -71,7 +99,7 @@ const UserModal = ({user,onClose,departments} : UserModalProps) => {
                 <h2 className={styles.modalTitle}>{!user ? 'Add New Employee' : 'Edit Employee'}</h2>
                 <button onClick={onClose} className={styles.closeButton}><CloseOutlined /></button>
             </div>
-            <form className={styles.modalForm}>
+            <form className={styles.modalForm} onSubmit={handleSubmit}>
                 <div className={styles.formGroup}>
                     <label htmlFor="name" className={styles.label}>Full Name</label>
                     <input 
@@ -83,6 +111,7 @@ const UserModal = ({user,onClose,departments} : UserModalProps) => {
                         value={formData.name}
                         onChange={(e) => handleChange(e)}
                     />
+                    {fieldErrors.name && <div className={styles.fieldError}>{fieldErrors.name}</div>}
                 </div>
                 <div className={styles.formGroup}>
                     <label htmlFor="email" className={styles.label}>Email Address</label>
@@ -95,7 +124,23 @@ const UserModal = ({user,onClose,departments} : UserModalProps) => {
                         value={formData.email}
                         onChange={(e) => handleChange(e)}
                     />
+                    {fieldErrors.email && <div className={styles.fieldError}>{fieldErrors.email}</div>}
                 </div>
+                {!user && (
+                    <div className={styles.formGroup}>
+                        <label htmlFor="password" className={styles.label}>Password</label>
+                        <input 
+                            type="password"
+                            id='password'
+                            name='password'
+                            className={styles.input}
+                            required
+                            value={formData.password}
+                            onChange={(e) => handleChange(e)}
+                        />
+                        {fieldErrors.password && <div className={styles.fieldError}>{fieldErrors.password}</div>}
+                    </div>
+                )}
                 <div className={styles.formRow}>
                     <div className={styles.formGroup}>
                         <label htmlFor="department" className={styles.label}>Department</label>
@@ -113,6 +158,7 @@ const UserModal = ({user,onClose,departments} : UserModalProps) => {
                                 </option>
                             ))}
                         </select>
+                        {fieldErrors.department && <div className={styles.fieldError}>{fieldErrors.department}</div>}
                     </div>
                     <div className={styles.formGroup}>
                         <label htmlFor="position" className={styles.label}>Position</label>
@@ -125,6 +171,7 @@ const UserModal = ({user,onClose,departments} : UserModalProps) => {
                             value={formData.position}
                             onChange={(e) => handleChange(e)}
                         />
+                        {fieldErrors.position && <div className={styles.fieldError}>{fieldErrors.position}</div>}
                     </div>
                 </div>
                 <div className={styles.formGroup}>
@@ -138,6 +185,7 @@ const UserModal = ({user,onClose,departments} : UserModalProps) => {
                             value={formData.joinDate}
                             onChange={(e) => handleChange(e)}
                         />
+                        {fieldErrors.joinDate && <div className={styles.fieldError}>{fieldErrors.joinDate}</div>}
                 </div>
                 <div className={styles.sectionTitle}>Leave Balance</div>
 
