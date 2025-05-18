@@ -6,6 +6,7 @@ import ManageUsersTable from './components/ManageUsersTable/ManageUsersTable'
 import { fetchUsers } from './lib/users'
 import ManageUsersTableSkeleton from './components/ManageUsersTableSkeleton/ManageUsersTableSkeleton'
 import LeaveRequestsTableNavigation from '../leave-requests/components/LeaveRequestsTableNavigation/LeaveRequestsTableNavigation'
+import UserModal from './components/UserModal/UserModal'
 
 
 interface User{
@@ -15,6 +16,11 @@ interface User{
   department:string,
   position:string,
   joinDate:string
+  leaveBalance: {
+    annual: number
+    sick: number
+    personal: number
+  }
 }
 
 const ManageUsersPageContent = () => {
@@ -24,6 +30,8 @@ const ManageUsersPageContent = () => {
     const [usersCount,setUsersCount] = useState<number>(0)
     const [currentPage,setCurrentPage] = useState<number>(1)
     const [loading,setLoading] = useState<boolean>(true)
+    const [isModalOpen,setIsModalOpen] = useState<boolean>(false)
+    const [currentUser,setCurrentUser] = useState<User | null>(null)
 
     const pageSize = 6
 
@@ -34,6 +42,10 @@ const ManageUsersPageContent = () => {
         setCurrentPage(currentPage-1)
     }
 
+    function handleAddUser() {
+      setIsModalOpen(true)
+    }
+
     const startItem = (currentPage - 1) * pageSize + 1;
     const endItem = Math.min(currentPage * pageSize, usersCount);
 
@@ -42,7 +54,7 @@ const ManageUsersPageContent = () => {
 
     useEffect(() => {
       if(users[currentPage]) return
-      
+
       setLoading(true)
       const fetchData = async () => {
         const {paginatedUsers,totalCount} = await fetchUsers(filteredEmployees,currentPage,pageSize)
@@ -70,6 +82,9 @@ const ManageUsersPageContent = () => {
               <EmployeeSearchInput handleFilterEmployees={handleFilterEmployees}/>
             </div>
             <div className={styles.tableNavigation}>
+                <button onClick={handleAddUser} className={styles.addButton}>
+                  Add New Employee
+                </button>
                 {!loading && (
                     <LeaveRequestsTableNavigation handlePreviousPageClick={handlePreviousPageClick} handleNextPageClick={handleNextPageClick} leaveRequestsCount={usersCount} startItem={startItem} endItem={endItem} isPreviousDisabled={isPreviousDisabled} isNextDisabled={isNextDisabled}/>
                 )}
@@ -81,8 +96,10 @@ const ManageUsersPageContent = () => {
                   <ManageUsersTable header={["Name","Email","Department","Position","Join Date","Actions"]} data={users[currentPage-1]}/>
               )}
             </div>
-
         </div>
+        {isModalOpen && (
+          <UserModal user={currentUser} onClose={() => setIsModalOpen(false)} departments={['Marketing','Finance','HR','Engineering','Sales','Customer Support','Product']}/>
+        )}
     </section>
   )
 }
