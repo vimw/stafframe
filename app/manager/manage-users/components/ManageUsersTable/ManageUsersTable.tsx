@@ -3,21 +3,28 @@ import styles from './ManageUsersTable.module.css'
 import ManageUsersRow from '../ManageUsersRow/ManageUsersRow'
 
 
-interface Users{
+interface User{
     id:string,
     name: string
     email: string,
     department:string,
     position: string,
-    joinDate: string
+    joinDate: string,
+    leaveBalance: {
+      annual: number
+      sick: number
+      personal: number
+    }
 }
 
 interface ManageUsersTableProps{
     header: string[]
-    data: Users[]
+    data: User[]
+    onEdit: (user:User) => void
+    onDelete: (user:User) => void
 }
 
-const ManageUsersTable = ({header,data}: ManageUsersTableProps) => {
+const ManageUsersTable = ({header,data,onEdit,onDelete}: ManageUsersTableProps) => {
   return (
     <div className={styles.wrapper}>
       <table className={styles.table}>
@@ -32,7 +39,7 @@ const ManageUsersTable = ({header,data}: ManageUsersTableProps) => {
         </thead>
         <tbody>
           {data.map((user) => (
-            <ManageUsersRow key={user.id} user={user} />
+            <ManageUsersRow key={user.id} user={user} onEdit={onEdit} onDelete={onDelete}/>
           ))}
         </tbody>
       </table>

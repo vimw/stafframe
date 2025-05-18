@@ -43,7 +43,19 @@ const ManageUsersPageContent = () => {
     }
 
     function handleAddUser() {
+      setCurrentUser(null)
       setIsModalOpen(true)
+    }
+
+    function handleEditUser(user:User) {
+      setCurrentUser(user)
+      setIsModalOpen(true)
+    }
+
+    function handleDeleteUser (user:User){
+      if(window.confirm("Are you sure you want to delete this user?")){
+        // delete user
+      }
     }
 
     const startItem = (currentPage - 1) * pageSize + 1;
@@ -93,7 +105,7 @@ const ManageUsersPageContent = () => {
               {loading || !users[currentPage-1] ? (
                 <ManageUsersTableSkeleton />
               ): (
-                  <ManageUsersTable header={["Name","Email","Department","Position","Join Date","Actions"]} data={users[currentPage-1]}/>
+                  <ManageUsersTable header={["Name","Email","Department","Position","Join Date","Actions"]} data={users[currentPage-1]} onEdit={handleEditUser} onDelete={handleDeleteUser}/>
               )}
             </div>
         </div>

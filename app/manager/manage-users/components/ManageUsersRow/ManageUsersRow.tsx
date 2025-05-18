@@ -2,18 +2,27 @@ import React from 'react'
 import styles from "../ManageUsersTable/ManageUsersTable.module.css";
 import ActionButton from '../ActionButton/ActionButton';
 
-interface ManageUserRowProps{
-  user: {
-    id: string;
+interface User{
+    id:string,
     name: string
     email: string,
     department:string,
     position: string,
-    joinDate:string
-  }
+    joinDate: string,
+    leaveBalance: {
+      annual: number
+      sick: number
+      personal: number
+    }
 }
 
-const LeaveRequestRow = ({user}: ManageUserRowProps) => {
+interface ManageUserRowProps{
+  user: User,
+  onEdit: (user:User) => void
+  onDelete: (user:User) => void
+}
+
+const LeaveRequestRow = ({user,onEdit,onDelete}: ManageUserRowProps) => {
   return (
     <tr key={user.id} className={styles.row}>
       <td className={styles.td}>{user.name}</td>
@@ -22,8 +31,8 @@ const LeaveRequestRow = ({user}: ManageUserRowProps) => {
       <td className={styles.td}>{user.position}</td>
       <td className={styles.td}>{user.joinDate}</td>
       <td className={`${styles.td} ${styles.actionButtons}`}>
-        <ActionButton action='Edit'/>
-        <ActionButton action='Delete'/>
+        <ActionButton action='Edit' onEdit={onEdit} user={user}/>
+        <ActionButton action='Delete' onDelete={onDelete} user={user}/>
       </td>
     </tr>
   )
