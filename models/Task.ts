@@ -68,9 +68,10 @@ const recurringTaskSchema = new Schema({
 
 const TaskModel = mongoose.models.Task || mongoose.model("Task", taskSchema);
 
-const RecurringTaskModel = TaskModel.discriminator(
-    "true",
-    recurringTaskSchema
+const RecurringTaskModel = mongoose.models.RecurringTask || TaskModel.discriminator(
+    "RecurringTask",
+    recurringTaskSchema,
+    "true"
 );
 
 export { TaskModel, RecurringTaskModel }
