@@ -28,8 +28,14 @@ const taskSchema = new Schema({
     },
     desc: String,
     category: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
         required: true
+    },
+    taskStart: {
+        yday: {
+            type: Number,
+            required: true
+        }
     },
     taskTime: {
         type: taskTimeSchema,
