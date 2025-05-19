@@ -1,10 +1,11 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './ManageTasksPageContent.module.css'
 import EmployeeSearchInput from '../leave-requests/components/EmployeeSearchInput/EmployeeSearchInput'
 import LeaveRequestsTableNavigation from '../leave-requests/components/LeaveRequestsTableNavigation/LeaveRequestsTableNavigation'
 import SearchTaskInput from './components/SearchTaskInput'
 import { Select } from 'antd';
+import { fetchTasks } from './lib/tasks'
 
 interface Task{
 
@@ -12,6 +13,8 @@ interface Task{
 
 const ManageTasksPageContent = () => {
     const [filteredEmployees,setFilteredEmployees] = useState<string[]>([])
+    const [filteredTask,setFilteredTask] = useState<string>('')
+    const [filteredCategory,setFilteredCategory] = useState<string>('')
     const [tasks,setTasks] = useState<Task[][]>([])
     const [tasksCount,setTasksCount] = useState<number>(0)
     const [currentPage,setCurrentPage] = useState<number>(1)
@@ -37,6 +40,19 @@ const ManageTasksPageContent = () => {
     function handleAddTask(){
 
     }
+
+    useEffect(() => {
+      if(tasks[currentPage-1]) return
+
+      setLoading(true)
+      const fetchData = async () => {
+        const {paginatedTasks,totalCount} = await fetchTasks(filteredEmployees,filteredTask,filteredCategory,currentPage,pageSize)
+        setTasks((prev) => [...prev,paginatedTasks])
+        setTasksCount(totalCount)
+        setLoading(false)
+      }
+      fetchData();
+    },[currentPage,filteredEmployees,filteredCategory,filteredTask])
 
     const startItem = (currentPage - 1) * pageSize + 1;
     const endItem = Math.min(currentPage * pageSize, tasksCount);
