@@ -87,17 +87,21 @@ export async function POST(request: Request){
 
 
     
-    const userToSave = {
-        ...parsed.data,
-        password: hashedPassword
-    }
+        const userToSave = {
+            ...parsed.data,
+            password: hashedPassword
+        }
 
-    console.log(userToSave)
     
-    const newUser = new User(userToSave)
-    await newUser.save();
+        const newUser = new User(userToSave)
+        await newUser.save();
+        const savedUser = newUser.toObject();
+        savedUser.id = savedUser._id.toString();
+        delete savedUser._id;
+        delete savedUser.password;
+        console.log(savedUser)
     
-        return NextResponse.json({message: 'User created'},{status: 201})
+        return NextResponse.json({savedUser},{status: 201})
     } catch (error) {
         console.error('Error creating user:',error)
         return NextResponse.json({error: 'Server error'},{status: 500})
@@ -142,12 +146,42 @@ export async function PATCH(request: Request){
         if (!updatedUser) {
             return NextResponse.json({ error: 'User not found' }, { status: 404 });
         }
+
+        const savedUser = updatedUser.toObject();
+        savedUser.id = savedUser._id.toString();
+        delete savedUser._id;
+        delete savedUser.password;
+        console.log(savedUser)
     
-        return NextResponse.json({message: 'User updated'},{status: 201})
+        return NextResponse.json({savedUser},{status: 201})
 
     } catch (error) {
         console.error('Error creating user:',error)
         return NextResponse.json({error: 'Server error'},{status: 500})
     }
 
+}
+
+export async function DELETE(request: Request){
+    try {
+        await connectDB();
+
+        const {id}= await request.json()
+
+        if(!id){
+            return NextResponse.json({error: 'User ID is required'})
+        }
+
+        const sanitizedId = sanitize(id);
+
+        const deletedUser = await User.findByIdAndDelete(sanitizedId)
+
+        if(!deletedUser){
+            return NextResponse.json({ error: 'User not found' }, { status: 404 });
+        }
+        return NextResponse.json({ message: 'User deleted successfully' }, { status: 200 });
+    } catch (error){
+        console.error('Error deleting user:', error);
+        return NextResponse.json({ error: 'Server error' }, { status: 500 });
+    }
 }
