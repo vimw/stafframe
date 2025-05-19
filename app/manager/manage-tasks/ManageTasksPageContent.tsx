@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import styles from './ManageTasksPageContent.module.css'
 import EmployeeSearchInput from '../leave-requests/components/EmployeeSearchInput/EmployeeSearchInput'
 import LeaveRequestsTableNavigation from '../leave-requests/components/LeaveRequestsTableNavigation/LeaveRequestsTableNavigation'
@@ -57,17 +57,37 @@ const ManageTasksPageContent = () => {
         setCurrentPage(1)
     }
 
+    function handleFilterCategory(category: string){
+        if (category !== 'all'){
+            setFilteredCategory(category)
+        } else {
+            setFilteredCategory('')
+        }
+        setTasks([])
+        setCurrentPage(1)
+    }
+
+    const handleFilterTask = useCallback((taskName: string) => {
+        setFilteredTask(taskName);
+        setTasks([]);
+        setCurrentPage(1);
+    }, []);
+
     function handleAddTask(){
 
     }
 
     useEffect(() => {
-      if(tasks[currentPage-1]) return
+      if(tasks[currentPage-1] && !loading) return
 
       setLoading(true)
       const fetchData = async () => {
         const {paginatedTasks,totalCount} = await fetchTasks(filteredEmployees,filteredTask,filteredCategory,currentPage,pageSize)
-        setTasks((prev) => [...prev,paginatedTasks])
+        setTasks((prev) => {
+            const newTasks = [...prev];
+            newTasks[currentPage - 1] = paginatedTasks;
+            return newTasks;
+        })
         setTasksCount(totalCount)
         setLoading(false)
       }
@@ -89,7 +109,7 @@ const ManageTasksPageContent = () => {
                     </div>
                     <div className={styles.filters}>
                         <div className={styles.searchTask}>
-                            <SearchTaskInput />
+                            <SearchTaskInput onSearch={handleFilterTask}/>
                         </div>
                         <div className={styles.filtersRow}>
                             <div className={styles.searchEmployee}>
@@ -105,6 +125,7 @@ const ManageTasksPageContent = () => {
                                         { value: 'break', label: 'Break' },
                                         { value: 'meet', label: 'Meet' },
                                     ]}
+                                    onSelect={(category) => handleFilterCategory(category.toLowerCase())}
                                 />
                             </div>
                         </div>
