@@ -6,9 +6,29 @@ import LeaveRequestsTableNavigation from '../leave-requests/components/LeaveRequ
 import SearchTaskInput from './components/SearchTaskInput'
 import { Select } from 'antd';
 import { fetchTasks } from './lib/tasks'
+import TaskCard from './components/TaskCard/TaskCard'
 
 interface Task{
-
+    id:string,
+    title:string,
+    desc:string,
+    category: string,
+    taskStart: {
+        yday:number
+    },
+    taskTime: {
+        hour: number,
+        minute: number,
+        length: number
+    },
+    targetType: string,
+    targetIds: string[],
+    isRecurring: boolean,
+    employeeNames: string[],
+    startDate: string,
+    startTime: string,
+    dueDate: string,
+    dueTime: string
 }
 
 const ManageTasksPageContent = () => {
@@ -18,11 +38,11 @@ const ManageTasksPageContent = () => {
     const [tasks,setTasks] = useState<Task[][]>([])
     const [tasksCount,setTasksCount] = useState<number>(0)
     const [currentPage,setCurrentPage] = useState<number>(1)
-    const [loading,setLoading] = useState<boolean>(false)
+    const [loading,setLoading] = useState<boolean>(true)
     const [isModalOpen,setIsModalOpen] = useState<boolean>(false)
     const [currentTask,setCurrentTask] = useState<Task | null>(null)
 
-    const pageSize = 6
+    const pageSize = 8
 
     function handleNextPageClick() {
         setCurrentPage(currentPage+1)
@@ -96,6 +116,17 @@ const ManageTasksPageContent = () => {
                         {!loading && (
                             <LeaveRequestsTableNavigation handlePreviousPageClick={handlePreviousPageClick} handleNextPageClick={handleNextPageClick} leaveRequestsCount={tasksCount} startItem={startItem} endItem={endItem} isPreviousDisabled={isPreviousDisabled} isNextDisabled={isNextDisabled}/>
                         )}
+                    </div>
+                    <div className={styles.taskGrid}>
+                        {!loading && tasks[currentPage - 1] && tasks[currentPage - 1].length > 0? (
+                            tasks[currentPage-1].length > 0 ? (
+                                tasks[currentPage-1].map((task) => (
+                                    <TaskCard key={task.id} task={task} handleEditTask={(task) => console.log('edit')} handleDeleteTask={(id) => console.log('delete')} />
+                                ))
+                            ): (
+                                <div className={styles.noResults}>No tasks found matching your criteria</div>
+                            )
+                        ) : null}
                     </div>
                 </div>
         </section>
