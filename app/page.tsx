@@ -4,10 +4,11 @@ import { taskTabs, loadTaskTabs } from "./components/ExampleTasks";
 import { getUsernameById } from "@/lib/users/getUsers";
 import { getTasksForDay } from "@/lib/tasks/getTasks";
 import { groupTasks, groupTasksWithNames } from "@/lib/tasks/groupTasks";
+import { getCategoriesByIds } from "@/lib/tasks/getCategories";
+import { getYDay } from "@/lib/time/yday";
 
 export default async function Home() {
-  console.log(await getTasksForDay());
-  console.log(await groupTasksWithNames(await getTasksForDay()));
+  console.log(getYDay());
 
   return (
     <Taskview>
