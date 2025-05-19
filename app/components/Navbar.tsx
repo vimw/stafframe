@@ -24,7 +24,7 @@ const Navbar = () => {
                   <Link href="/manager/tasks">Manage Tasks</Link>
                 </li>
                 <li>
-                  <Link href="/">Manage Users</Link>
+                  <Link href="/manager/manage-users">Manage Users</Link>
                 </li>
                 <li>
                   <Link href="/manager/leave-requests">Leave Requests</Link>
