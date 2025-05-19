@@ -53,7 +53,7 @@ function Task({ title, category, taskTime, bgColor, color, children }: taskProps
     const size: number = taskTime.length * (hourBoxSize / 60);
 
     return (
-        <Popover title={title} content={<div style={{maxWidth: "12rem"}}><p>Category: {category}</p><p>{children}</p></div>} placement="rightTop">
+        <Popover title={<span style={{color: "white"}}>{title}</span>} content={<div style={{maxWidth: "16rem", color: "white"}}><p>Category: {category}</p><p>{children}</p></div>} placement="rightTop" color="#181818">
         <div className={styles.task} style={{
                 top: top,
                 height: size,

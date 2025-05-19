@@ -8,7 +8,6 @@ import { getCategoriesByIds } from "@/lib/tasks/getCategories";
 import { getYDay } from "@/lib/time/yday";
 
 export default async function Home() {
-  console.log(getYDay());
 
   return (
     <Taskview>

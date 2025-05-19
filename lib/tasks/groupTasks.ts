@@ -1,5 +1,6 @@
 import { connectDB } from "../db/db";
 import { getUsernameById } from "../users/getUsers";
+import { taskTabI } from "./TaskDefinitions";
 
 function groupTasks(taskArray: any[]): any[]{
     const m = new Map();
@@ -23,11 +24,11 @@ async function groupTasksWithNames(taskArray: any[]){
     await connectDB();
 
     for(const el of grouped){
-        el.name = (await getUsernameById(el.id)).name;
+        el.title = (await getUsernameById(el.id)).name;
         delete el.id;
     }
 
-    return grouped as any[];
+    return grouped as taskTabI[];
 }
 
 function stripTargetIds(obj: any){
