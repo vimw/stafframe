@@ -20,10 +20,11 @@ interface User{
 interface UserModalProps {
   user: User | null,
   onClose: () => void,
-  departments:string[]
+  departments:string[],
+  onSave?: (user: User,isNew: boolean) => void
 }
 
-const UserModal = ({user,onClose,departments} : UserModalProps) => {
+const UserModal = ({user,onClose,departments,onSave} : UserModalProps) => {
   const [formData,setFormData] = useState<User>({
     id: '',
     name: '',
@@ -85,7 +86,10 @@ const UserModal = ({user,onClose,departments} : UserModalProps) => {
             }
             return
         }
+
         onClose()
+        console.log(data.savedUser)
+        onSave?.(data.savedUser,!user)
 
     } catch(error){
         console.error('Request failed:', error)
