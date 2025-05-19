@@ -5,6 +5,7 @@ import { useContext } from "react";
 import { taskI, taskTimeI } from "@/lib/tasks/TaskDefinitions";
 import { TaskStyles } from "./Taskview";
 import styles from "./Task.module.css";
+import { Popover } from "antd";
 
 type taskProps = Omit<taskI, 'desc'> & {
     children?: taskI['desc']
@@ -52,16 +53,18 @@ function Task({ title, category, taskTime, bgColor, color, children }: taskProps
     const size: number = taskTime.length * (hourBoxSize / 60);
 
     return (
+        <Popover title={title} content={<div style={{maxWidth: "12rem"}}><p>Category: {category}</p><p>{children}</p></div>} placement="rightTop">
         <div className={styles.task} style={{
-            top: top,
-            height: size,
-            backgroundColor: bgColor ?? "red",
-            color: color ?? "white"
-        }}>
-            <h3>{ title }</h3>
-            <p>{ category }</p>
-            <p>{ children }</p>
+                top: top,
+                height: size,
+                backgroundColor: bgColor ?? "red",
+                color: color ?? "white"
+            }}>
+                <h3>{ title }</h3>
+                <p>{ category }</p>
+                <p>{ children }</p>
         </div>
+        </Popover>
     );
 }
 
