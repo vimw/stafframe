@@ -7,6 +7,7 @@ import SearchTaskInput from './components/SearchTaskInput'
 import { Select } from 'antd';
 import { fetchTasks } from './lib/tasks'
 import TaskCard from './components/TaskCard/TaskCard'
+import TaskModal from './components/TaskModal/TaskModal'
 
 interface Task{
     id:string,
@@ -28,7 +29,10 @@ interface Task{
     startDate: string,
     startTime: string,
     dueDate: string,
-    dueTime: string
+    dueTime: string,
+    recurringType?: "daily" | "weekly" | "monthly" | "yearly",
+    recurringEndDate?: string,
+    recurringDays?: number[]
 }
 
 const ManageTasksPageContent = () => {
@@ -74,7 +78,13 @@ const ManageTasksPageContent = () => {
     }, []);
 
     function handleAddTask(){
+        setCurrentTask(null)
+        setIsModalOpen(true)
+    }
 
+    function handleEditTask(task:Task) {
+      setCurrentTask(task)
+      setIsModalOpen(true)
     }
 
     useEffect(() => {
@@ -142,7 +152,7 @@ const ManageTasksPageContent = () => {
                         {!loading && tasks[currentPage - 1] && tasks[currentPage - 1].length > 0? (
                             tasks[currentPage-1].length > 0 ? (
                                 tasks[currentPage-1].map((task) => (
-                                    <TaskCard key={task.id} task={task} handleEditTask={(task) => console.log('edit')} handleDeleteTask={(id) => console.log('delete')} />
+                                    <TaskCard key={task.id} task={task} handleEditTask={(task) => handleEditTask(task)} handleDeleteTask={(id) => console.log('delete')} />
                                 ))
                             ): (
                                 <div className={styles.noResults}>No tasks found matching your criteria</div>
@@ -150,6 +160,9 @@ const ManageTasksPageContent = () => {
                         ) : null}
                     </div>
                 </div>
+                {isModalOpen && (
+                    <TaskModal task={currentTask} categories={['Work','Other','Break','Meet']} onClose={() => setIsModalOpen(false)} onSave={(task:Task) => console.log(task)}/>
+                )}
         </section>
     )
 }
