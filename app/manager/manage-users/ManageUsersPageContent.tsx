@@ -52,9 +52,47 @@ const ManageUsersPageContent = () => {
       setIsModalOpen(true)
     }
 
-    function handleDeleteUser (user:User){
+    function handleUserSaved(savedUser: User, isNew: boolean) {
+      setUsers(prev => {
+        const copy = [...prev];
+        const page = currentPage - 1;
+        if (isNew) {
+          const newPage = [savedUser, ...(copy[page] || [])].slice(0, pageSize);
+          copy[page] = newPage;
+          setUsersCount(prevCount => prevCount + 1);
+        } else {
+          copy[page] = copy[page].map(u => u.id === savedUser.id ? savedUser : u);
+        }
+        return copy;
+      });
+    }
+
+    
+
+    async function handleDeleteUser (user:User){
       if(window.confirm("Are you sure you want to delete this user?")){
-        // delete user
+        try{
+          const res = await fetch('/api/users', {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({id: user.id})
+          })
+
+          
+          if (res.ok) {
+            const { paginatedUsers, totalCount } = await fetchUsers(filteredEmployees, currentPage, pageSize);
+            setUsers((prev) => {
+              const copy = [...prev];
+              copy[currentPage - 1] = paginatedUsers;
+              return copy;
+            });
+            setUsersCount(totalCount);
+          }
+        } catch (error){
+            console.error('Request failed:', error)
+        }
       }
     }
 
@@ -65,7 +103,7 @@ const ManageUsersPageContent = () => {
     const isNextDisabled = currentPage * pageSize >= usersCount;
 
     useEffect(() => {
-      if(users[currentPage]) return
+      if(users[currentPage-1]) return
 
       setLoading(true)
       const fetchData = async () => {
@@ -81,6 +119,7 @@ const ManageUsersPageContent = () => {
     function handleFilterEmployees(users: string[]){
         setFilteredEmployees(users)
         setUsers([])
+        setCurrentPage(1)
     }
   
   return (
@@ -110,7 +149,7 @@ const ManageUsersPageContent = () => {
             </div>
         </div>
         {isModalOpen && (
-          <UserModal user={currentUser} onClose={() => setIsModalOpen(false)} departments={['Marketing','Finance','HR','Engineering','Sales','Customer Support','Product']}/>
+          <UserModal user={currentUser} onClose={() => setIsModalOpen(false)} departments={['Marketing','Finance','HR','Engineering','Sales','Customer Support','Product']} onSave={handleUserSaved}/>
         )}
     </section>
   )
