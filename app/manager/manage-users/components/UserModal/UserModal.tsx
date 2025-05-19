@@ -72,7 +72,7 @@ const UserModal = ({user,onClose,departments} : UserModalProps) => {
     setFieldErrors({})
     try{
         const response = await fetch('/api/users', {
-            method: user ? 'PUT' : 'POST',
+            method: user ? 'PATCH' : 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },

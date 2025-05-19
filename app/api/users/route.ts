@@ -104,3 +104,50 @@ export async function POST(request: Request){
     }
 
 }
+
+const partialUserSchema = userSchema.partial()
+
+export async function PATCH(request: Request){
+    try{
+        await connectDB()
+        
+        const { id, ...body } = await request.json();
+
+        if (!id) {
+            return NextResponse.json({ error: 'User ID is required' }, { status: 400 });
+        }
+
+        const sanitized = sanitize(body)
+        const parsed = partialUserSchema.safeParse(sanitized)
+
+        if(!parsed.success){
+            const flattened = parsed.error.flatten()
+            const fieldErrors: Record<string, string> = {}
+
+            Object.entries(flattened.fieldErrors).forEach(([field, messages]) => {
+                if (messages && messages.length > 0) {
+                fieldErrors[field] = messages[0]
+                }
+            })
+            return NextResponse.json({ errors: fieldErrors }, { status: 400 })
+        }
+
+        const updateData = { ...parsed.data };
+
+        const updatedUser = await User.findByIdAndUpdate(id,updateData, {
+            new: true,
+            runValidators: true,
+        }).select('-password')
+
+        if (!updatedUser) {
+            return NextResponse.json({ error: 'User not found' }, { status: 404 });
+        }
+    
+        return NextResponse.json({message: 'User updated'},{status: 201})
+
+    } catch (error) {
+        console.error('Error creating user:',error)
+        return NextResponse.json({error: 'Server error'},{status: 500})
+    }
+
+}
