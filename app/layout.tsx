@@ -14,6 +14,9 @@ const lato = Lato({
 export const metadata: Metadata = {
   title: "Stafframe",
   description: "Stafframe allows you to create time based tasks to your growing amount of employees. With ease add users and tasks. Review leave requests. Grafikuj.",
+  icons: {
+    icon: "/favicon.ico"
+  }
 };
 
 export default function RootLayout({
