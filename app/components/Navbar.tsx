@@ -21,7 +21,7 @@ const Navbar = () => {
                   <Link href="/">Home</Link>
                 </li>
                 <li>
-                  <Link href="/manager/tasks">Manage Tasks</Link>
+                  <Link href="/manager/manage-tasks">Manage Tasks</Link>
                 </li>
                 <li>
                   <Link href="/manager/manage-users">Manage Users</Link>
