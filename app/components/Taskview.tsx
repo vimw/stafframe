@@ -5,6 +5,7 @@ import React from "react";
 import { createContext, useMemo } from "react";
 import styles from "./Taskview.module.css";
 import { taskTabI, taskI, taskTimeI } from "@/lib/tasks/TaskDefinitions";
+import { TaskviewNavigation } from "./TaskviewNavigation";
 
 const hourRange = {
     startAt: conf.hourRange.startAt ?? 0,
@@ -36,20 +37,25 @@ function Taskview({ children }: { children?: React.ReactNode }){
         <div className={styles.taskview} style={{
             padding: taskViewPadding
         }}>
-            <div className={styles.bg} style={{
-                top: taskViewPadding + headerSize,
-                left: taskViewPadding
-            }}>
-                {Array.from({ length: boxNumber }).map((_, i) => (
-                    <div key={i} style={{
-                        height: boxSize,
-                        borderTop: `${boxBorder}px solid #AFAFAF`
-                    }}></div>
-                ))}
+            <div className={styles.nav}>
+                <TaskviewNavigation />
             </div>
-            <div className={styles.content}>
-                <Taskviewtimedisplay />
-                { children }
+            <div className={styles.main}>
+                <div className={styles.bg} style={{
+                    top: taskViewPadding + headerSize,
+                    left: taskViewPadding
+                }}>
+                    {Array.from({ length: boxNumber }).map((_, i) => (
+                        <div key={i} style={{
+                            height: boxSize,
+                            borderTop: `${boxBorder}px solid #AFAFAF`
+                        }}></div>
+                    ))}
+                </div>
+                <div className={styles.content}>
+                    <Taskviewtimedisplay />
+                    { children }
+                </div>
             </div>
         </div>
     );
