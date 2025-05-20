@@ -12,10 +12,16 @@
 
 .nav{
     position: relative;
+
+    padding: 0.8rem;
 }
 
 .main{
     position: relative;
+
+    padding-top: 8px;
+
+    border-top: 2px solid black;
 }
 
 .bg {
