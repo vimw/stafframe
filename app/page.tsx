@@ -1,11 +1,11 @@
-import { Taskview, TaskTab } from "./components/Taskview";
-import { Task } from "@/app/components/Task";
-import { taskTabs, loadTaskTabs } from "./components/ExampleTasks";
+import { Taskview } from "./components/Taskview";
+import { loadTasksIntoTaskTabsByDate } from "@/lib/tasks/loadTasks";
 
 export default async function Home() {
+
   return (
     <Taskview>
-      {loadTaskTabs(taskTabs)}
+      {loadTasksIntoTaskTabsByDate()}
     </Taskview>
   );
 }

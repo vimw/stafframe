@@ -9,9 +9,6 @@ import { Popover } from "antd";
 
 type taskProps = Omit<taskI, 'desc'> & {
     children?: taskI['desc']
-} & {
-    bgColor?: string,
-    color?: string
 }
 
 // niby niepotrzebne lecz dla blednych danych jakis fallback
@@ -35,7 +32,7 @@ function verifyTaskTime(taskTime: taskTimeI){
     return true;
 }
 
-function Task({ title, category, taskTime, bgColor, color, children }: taskProps){
+function Task({ title, category, taskTime, children }: taskProps){
     // calculate if the provided taskTime is correct,
     // otherwise fallback to default
     if(!verifyTaskTime(taskTime)){
@@ -53,15 +50,14 @@ function Task({ title, category, taskTime, bgColor, color, children }: taskProps
     const size: number = taskTime.length * (hourBoxSize / 60);
 
     return (
-        <Popover title={title} content={<div style={{maxWidth: "12rem"}}><p>Category: {category}</p><p>{children}</p></div>} placement="rightTop">
+        <Popover title={<span style={{color: "white"}}>{title}</span>} content={<div style={{maxWidth: "16rem", color: "white"}}><p>Category: {category.name}</p><p>{children}</p></div>} placement="rightTop" color="#181818">
         <div className={styles.task} style={{
                 top: top,
                 height: size,
-                backgroundColor: bgColor ?? "red",
-                color: color ?? "white"
+                backgroundColor: category.bgColor ?? "red",
+                color: category.color ?? "white"
             }}>
                 <h3>{ title }</h3>
-                <p>{ category }</p>
                 <p>{ children }</p>
         </div>
         </Popover>

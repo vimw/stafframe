@@ -1,6 +1,9 @@
 import { CategoryModel } from "@/models/Categories"
 import { connectDB } from "../db/db";
 
+// DEPRECATED
+// DEPRECATED
+// DEPRECATED
 async function getCategoriesByNames(names: string[]) {
     await connectDB();
     const categories = await CategoryModel.find({
@@ -19,4 +22,26 @@ async function getCategoriesByNames(names: string[]) {
     );
 }
 
-export { getCategoriesByNames };
+async function getCategoriesByIds(ids: string[]) {
+    await connectDB();
+    const categories = await CategoryModel.find({
+        _id: { $in: ids }
+    }).lean().exec();
+
+    const m = new Map();
+
+    categories.forEach(el => {
+        if(el.name !== undefined){
+            m.set((el._id as any).toString(), stripIds(el));
+        }
+    })
+
+    return m;
+}
+
+function stripIds(obj: any){
+    const { _id, ...rest } = obj;
+    return rest;
+}
+
+export { getCategoriesByNames, getCategoriesByIds };
