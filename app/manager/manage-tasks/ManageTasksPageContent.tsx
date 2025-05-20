@@ -24,7 +24,7 @@ interface Task{
     },
     targetType: string,
     targetIds: string[],
-    isRecurring: boolean,
+    recurring?: boolean,
     employeeNames: string[],
     startDate: string,
     startTime: string,
