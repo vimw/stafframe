@@ -1,17 +1,11 @@
-import { Taskview, TaskTab } from "./components/Taskview";
-import { Task } from "@/app/components/Task";
-import { taskTabs, loadTaskTabs } from "./components/ExampleTasks";
-import { getUsernameById } from "@/lib/users/getUsers";
-import { getTasksForDay } from "@/lib/tasks/getTasks";
-import { groupTasks, groupTasksWithNames } from "@/lib/tasks/groupTasks";
-import { getCategoriesByIds } from "@/lib/tasks/getCategories";
-import { getYDay } from "@/lib/time/yday";
+import { Taskview } from "./components/Taskview";
+import { loadTasksIntoTaskTabsByDate } from "@/lib/tasks/loadTasks";
 
 export default async function Home() {
 
   return (
     <Taskview>
-      {loadTaskTabs(taskTabs)}
+      {loadTasksIntoTaskTabsByDate()}
     </Taskview>
   );
 }
