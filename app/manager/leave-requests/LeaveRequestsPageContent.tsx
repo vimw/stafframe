@@ -11,8 +11,9 @@ import { fetchLeaveRequests } from './lib/api/leaves';
 import LeaveRequestsTableSkeleton from './components/LeaveRequestsTableSkeleton/LeaveRequestsTableSkeleton';
 
 interface LeaveRequest {
-    id: number
+    id: string
     employeeName: string
+    employeeId: string
     leaveType: 'Annual Leave' | 'Sick Leave'
     startDate: string
     endDate: string

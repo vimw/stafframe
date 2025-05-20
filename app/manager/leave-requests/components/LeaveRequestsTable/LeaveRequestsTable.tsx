@@ -4,8 +4,9 @@ import LeaveRequestRow from '../LeaveRequestRow/LeaveRequestRow'
 
 
 interface LeaveRequests{
-    id: number
+    id: string
     employeeName: string
+    employeeId: string
     leaveType: 'Annual Leave' | 'Sick Leave'
     startDate: string
     endDate: string

@@ -5,8 +5,9 @@ import {ExportOutlined, EditOutlined,FolderOutlined} from '@ant-design/icons';
 
 interface LeaveRequestRow{
   leaveRequest: {
-    id: number;
+    id: string;
     employeeName: string;
+    employeeId: string
     leaveType: 'Annual Leave' | 'Sick Leave';
     startDate: string;
     endDate: string;
