@@ -1,13 +1,22 @@
 import { connectDB } from "../db/db";
 import { fullLeaveRequestI, leaveRequestI } from "./LeaveRequestDefinitions";
 import { LeaveRequestModel, ArchiveLeaveRequestModel } from "@/models/LeaveRequest";
-import { getUsernameById } from "../users/getUsers";
+import { getUsernamesByIds } from "../users/getUsers";
 
 async function getLeaveRequests() {
     await connectDB();
-    const leaveRequests = await LeaveRequestModel.find({}).exec();
+    const leaveRequests = await LeaveRequestModel.find({}).lean().exec();
 
-    const enrichedLeaveRequests = await enrichLeaveRequests(leaveRequests as leaveRequestI[]);
+    leaveRequests.forEach((el) => {
+        el._id = (el._id as any).toString();
+        el.userId = el.userId.toString();
+    });
+
+    // console.log(leaveRequests);
+
+    const enrichedLeaveRequests = await enrichLeaveRequests(leaveRequests);
+
+    // console.log(enrichedLeaveRequests);
 
     return enrichedLeaveRequests as fullLeaveRequestI[];
 }
@@ -16,36 +25,46 @@ async function getArchivedLeaveRequests() {
     await connectDB();
     const archivedLeaveRequests = await ArchiveLeaveRequestModel.find({}).exec();
 
-    const enrichedLeaveRequests = await enrichLeaveRequests(archivedLeaveRequests as leaveRequestI[]);
+    archivedLeaveRequests.forEach((el) => {
+        el._id = (el._id as any).toString();
+        el.userId = el.userId.toString();
+    });
+
+    const enrichedLeaveRequests = await enrichLeaveRequests(archivedLeaveRequests);
 
     return enrichedLeaveRequests as fullLeaveRequestI[];
 }
 
-async function enrichLeaveRequests(leaveRequests: leaveRequestI[]) {
-    const enrichedRequests = leaveRequests.map(async (obj) => {
-        const userIdString = typeof obj.userId === 'string'
-        ? obj.userId
-        : obj.userId.toString();
+async function enrichLeaveRequests(leaveRequests: any[]) {
+    const users = getDistinctUsers(leaveRequests);
 
-        let nameValue: string | null = null;
+    const usernames = await getUsernames(users);
 
-        try {
-            const userInfo = await getUsernameById(userIdString);
-            if (userInfo) {
-                nameValue = (userInfo as any).name; // Assign the username string to nameValue
-            }
-        } catch (error) {
-            console.error(`Error fetching username for userId ${userIdString}:`);
-        }
+    console.log(usernames)
 
-        return {
-            ...obj,
-            name: nameValue,
-        } as fullLeaveRequestI;
+    leaveRequests.forEach(el => {
+        el.name = usernames.get(el.userId);
     });
 
-    const enriched = await Promise.all(enrichedRequests);
-    return enriched;
+    return leaveRequests;
+}
+
+function getDistinctUsers(leaveRequests: leaveRequestI[]): string[]{
+    const m = new Set();
+
+    leaveRequests.forEach((el) => {
+        m.add(el.userId)
+    });
+
+    return [...m] as string[];
+}
+
+async function getUsernames(users: string[]){
+    const usernames = await getUsernamesByIds(users);
+
+    
+
+    return usernames;
 }
 
 export { getLeaveRequests, getArchivedLeaveRequests };

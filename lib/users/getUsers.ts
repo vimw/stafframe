@@ -15,4 +15,22 @@ async function getUsernameById(id: string){
     return null;
 }
 
-export { getUsernameById };
+async function getUsernamesByIds(ids: string[]){
+    await connectDB();
+
+    const users: any = await FullUserModel.find({
+        _id: { $in: ids }
+    }).select("_id name email").lean().exec();
+
+    if(users){
+        users.forEach((user: any) => {
+            user._id = user._id.toString();
+        })
+
+        return users;
+    }
+
+    return null;
+}
+
+export { getUsernameById, getUsernamesByIds };

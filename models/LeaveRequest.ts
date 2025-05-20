@@ -1,13 +1,8 @@
 import mongoose, { Schema } from "mongoose";
 
 const leaveRequestSchema = new Schema({
-    id: {
-        type: Number,
-        required: true,
-        unique: true
-    },
     userId: {
-        type: Number,
+        type: mongoose.Schema.Types.ObjectId,
         required: true
     },
     leaveType: {
