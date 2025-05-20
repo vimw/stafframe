@@ -1,0 +1,10 @@
+.navbar{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    & h2{
+        margin-right: 2rem;
+        margin-left: 0.5rem;
+    }
+}

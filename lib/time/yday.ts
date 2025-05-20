@@ -9,4 +9,9 @@ function getYDay(date: Date = new Date()): number{
     return yday;
 }
 
-export { getYDay };
+function getDateFromYDay(yday: number): Date{
+    const teraz = new Date();
+    return new Date(teraz.getFullYear(), 0, yday);
+}
+
+export { getYDay, getDateFromYDay };
