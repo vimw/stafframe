@@ -31,10 +31,10 @@ interface Task {
 interface TaskCardProps {
   task: Task,
   handleEditTask: (task: Task) => void
-  handleDeleteTask: (id:string) => void
+  onDelete: (task:Task) => void
 }
 
-const TaskCard = ({ task, handleEditTask, handleDeleteTask }: TaskCardProps) => {
+const TaskCard = ({ task, handleEditTask, onDelete }: TaskCardProps) => {
 
   return (
     <div key={task.id} className={styles.taskCard}>
@@ -57,7 +57,7 @@ const TaskCard = ({ task, handleEditTask, handleDeleteTask }: TaskCardProps) => 
           </button>
           <button
             className={styles.taskActionButton}
-            onClick={() => handleDeleteTask(task.id)}
+            onClick={() => onDelete(task)}
             title="Delete Task"
           >
             <DeleteOutlined />

@@ -87,6 +87,33 @@ const ManageTasksPageContent = () => {
       setIsModalOpen(true)
     }
 
+    async function handleDeleteTask (task:Task){
+          if(window.confirm("Are you sure you want to delete this task?")){
+            try{
+              const res = await fetch('/api/tasks', {
+                method: 'DELETE',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({id: task.id})
+              })
+    
+              
+              if (res.ok) {
+                const { paginatedTasks, totalCount } = await fetchTasks(filteredEmployees,filteredTask,filteredCategory,currentPage,pageSize)
+                setTasks((prev) => {
+                  const copy = [...prev];
+                  copy[currentPage - 1] = paginatedTasks;
+                  return copy;
+                });
+                setTasksCount(totalCount);
+              }
+            } catch (error){
+                console.error('Request failed:', error)
+            }
+          }
+        }
+
     useEffect(() => {
       if(tasks[currentPage-1] && !loading) return
 
@@ -152,7 +179,7 @@ const ManageTasksPageContent = () => {
                         {!loading && tasks[currentPage - 1] && tasks[currentPage - 1].length > 0? (
                             tasks[currentPage-1].length > 0 ? (
                                 tasks[currentPage-1].map((task) => (
-                                    <TaskCard key={task.id} task={task} handleEditTask={(task) => handleEditTask(task)} handleDeleteTask={(id) => console.log('delete')} />
+                                    <TaskCard key={task.id} task={task} handleEditTask={(task) => handleEditTask(task)} onDelete={handleDeleteTask} />
                                 ))
                             ): (
                                 <div className={styles.noResults}>No tasks found matching your criteria</div>
