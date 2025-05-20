@@ -20,7 +20,7 @@ interface Task{
     },
     targetType: string,
     targetIds: string[],
-    isRecurring: boolean,
+    recurring?: boolean,
     employeeNames: string[],
     startDate: string,
     startTime: string,
@@ -66,7 +66,7 @@ export default function TaskModal({ task, categories, onSave, onClose }: TaskMod
     dueDate: today,
     dueTime: currentTime,
     category: categories[0] || "Other",
-    isRecurring: false,
+    recurring: false,
     recurringType: "weekly",
     recurringEndDate: "",
     recurringDays: [],
@@ -74,7 +74,13 @@ export default function TaskModal({ task, categories, onSave, onClose }: TaskMod
 
   useEffect(() => {
       if(task){
-          setFormData(task)
+          setFormData({
+              ...task,
+              recurring: task.recurring ?? false,
+              recurringType: task.recurringType ?? "weekly",
+              recurringEndDate: task.recurringEndDate ?? "",
+              recurringDays: task.recurringDays ?? [],
+          })
       }
     },[task])
 
@@ -149,7 +155,7 @@ async function handleSubmit(e: React.FormEvent){
 
     return (
       startDateTime <= dueDateTime &&
-      (!formData.isRecurring ||
+      (!formData.recurring ||
         !formData.recurringEndDate ||
         new Date(formData.dueDate) <= new Date(formData.recurringEndDate))
     )
@@ -186,14 +192,14 @@ async function handleSubmit(e: React.FormEvent){
           </div>
 
           <div className={styles.formGroup}>
-            <label htmlFor="description" className={styles.label}>
+            <label htmlFor="desc" className={styles.label}>
               Description
             </label>
             <textarea
-              id="description"
-              name="description"
+              id="desc"
+              name="desc"
               value={formData.desc}
-              onChange={handleChange}
+              onChange={(e) => handleChange(e)}
               className={styles.textarea}
               rows={4}
               required
@@ -303,8 +309,8 @@ async function handleSubmit(e: React.FormEvent){
               <label className={styles.checkboxLabel}>
                 <input
                   type="checkbox"
-                  name="isRecurring"
-                  checked={formData.isRecurring}
+                  name="recurring"
+                  checked={formData.recurring}
                   onChange={handleChange}
                   className={styles.checkbox}
                 />
@@ -313,7 +319,7 @@ async function handleSubmit(e: React.FormEvent){
             </div>
           </div>
 
-          {formData.isRecurring && (
+          {formData.recurring && (
             <>
               <div className={styles.formRow}>
                 <div className={styles.formGroup}>
@@ -326,7 +332,7 @@ async function handleSubmit(e: React.FormEvent){
                     value={formData.recurringType}
                     onChange={handleChange}
                     className={styles.select}
-                    required={formData.isRecurring}
+                    required={formData.recurring}
                   >
                     <option value="daily">Daily</option>
                     <option value="weekly">Weekly</option>
