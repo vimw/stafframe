@@ -15,6 +15,9 @@ async function getTasksForDay(date: Date = new Date()){
 
     tasksForDay.forEach(element => {
         element["_id"] = element["_id"].toString();
+        if(element.taskTime._id){
+            delete element.taskTime._id
+        }
         element["category"] = element["category"].toString();
         element.targetIds = element.targetIds.map((el: any) => el.toString());
     });
