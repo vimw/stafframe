@@ -13,7 +13,13 @@ interface Task{
     length: number
   },
   targetType: string,
-  targetIds: string[]
+  targetIds: string[],
+  recurring?: boolean,
+  employeeNames: string[],
+  startDate: string,
+  startTime: string,
+  dueDate: string,
+  dueTime: string
 }
 
 interface paginatedTaskResponse {
