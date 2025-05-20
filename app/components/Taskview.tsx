@@ -17,6 +17,7 @@ const hourRange = {
 const taskViewPadding = 4;                                                                  // px
 const taskTabWidth = 400;                                                                   // px
 const headerSize = 64;                                                                      // px
+const headerSpacing = 80;                                                                   // px
 
 const hourBoxSize = 120;                                                                    // px
 const boxBorder = 1;                                                                        // px
@@ -42,8 +43,8 @@ function Taskview({ yday, children }: { yday?: number, children?: React.ReactNod
             </div>
             <div className={styles.main}>
                 <div className={styles.bg} style={{
-                    top: taskViewPadding + headerSize,
-                    left: taskViewPadding
+                    top: headerSpacing,
+                    left: 0
                 }}>
                     {Array.from({ length: boxNumber }).map((_, i) => (
                         <div key={i} style={{
@@ -66,7 +67,7 @@ function Taskviewtimedisplay(){
 
     return (
         <div className={styles.hourdisplay} style={{
-            marginTop: headerSize
+            marginTop: headerSpacing
         }}>
             {Array.from({ length: boxNumber}).map((_, i) => {
                 const totalMin = hourRange.startAt * 60 + i * interval;

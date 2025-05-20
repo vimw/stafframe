@@ -5,6 +5,10 @@ import Details from './components/details/Details'
 import ManagerDecision from './components/ManagerDecision/ManagerDecision'
 import EmployeeInfo from './components/EmployeeInfo/EmployeeInfo'
 
+export const metadata = {
+  title: "Stafframe | View Leave Request"
+}
+
 interface Props {
   params: Promise<{id: number}>
 }
