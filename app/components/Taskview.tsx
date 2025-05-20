@@ -32,13 +32,13 @@ const TaskStyles = createContext({
 const boxNumber = (hourRange.endAt - hourRange.startAt + 1) * hourRange.steps;
 
 
-function Taskview({ children }: { children?: React.ReactNode }){
+function Taskview({ yday, children }: { yday?: number, children?: React.ReactNode }){
     return (
         <div className={styles.taskview} style={{
             padding: taskViewPadding
         }}>
             <div className={styles.nav}>
-                <TaskviewNavigation />
+                <TaskviewNavigation yday={yday} />
             </div>
             <div className={styles.main}>
                 <div className={styles.bg} style={{
