@@ -1,5 +1,9 @@
 import { NextResponse } from "next/server";
-
+import { TaskModel, RecurringTaskModel } from '@/models/Task'
+import { CategoryModel } from '@/models/Categories'
+import sanitize from 'mongo-sanitize';
+import { connectDB } from '@/lib/db/db';
+import mongoose from "mongoose";
 
 const mockTasks = [
     {
@@ -318,4 +322,116 @@ export async function GET(request: Request) {
         totalCount: filteredTasks.length
     })
     
+}
+
+function getYDay(date: Date): number {
+  const startOfYear = new Date(date.getFullYear(), 0, 0);
+  const diff = date.getTime() - startOfYear.getTime();
+  const oneDay = 1000 * 60 * 60 * 24;
+  return Math.floor(diff / oneDay);
+}
+
+function getDurationInMinutes(start: Date, end: Date): number {
+  return Math.max(1, Math.round((end.getTime() - start.getTime()) / 60000));
+}
+
+
+export async function POST(request: Request){
+  try {
+      await connectDB();
+      const rawData = await request.json();
+      const data = sanitize(rawData);
+
+      const {
+        title,
+        desc,
+        category,
+        startDate,
+        startTime,
+        dueDate,
+        dueTime,
+        targetType,
+        targetIds,
+        recurring,
+        recurringType,
+        recurringEndDate,
+        recurringDays
+      } = data;
+
+      if (
+        !title ||
+        !category ||
+        !startDate ||
+        !startTime ||
+        !dueDate ||
+        !dueTime ||
+        !targetType ||
+        !Array.isArray(targetIds) ||
+        targetIds.length === 0
+      ) {
+        return NextResponse.json(
+          { error: "Missing required fields" },
+          { status: 400 }
+        );
+      }
+
+      let categoryId;
+      if (mongoose.Types.ObjectId.isValid(category)) {
+        categoryId = category;
+      } else {
+        const foundCategory = await CategoryModel.findOne({ name: category });
+        if (!foundCategory) {
+          return NextResponse.json(
+            { error: `Category "${category}" not found` },
+            { status: 400 }
+          );
+        }
+        categoryId = foundCategory._id;
+      }
+
+      const startDateTime = new Date(`${startDate}T${startTime}`);
+      const dueDateTime = new Date(`${dueDate}T${dueTime}`);
+
+      if (isNaN(startDateTime.getTime()) || isNaN(dueDateTime.getTime())) {
+        return NextResponse.json({ error: "Invalid date/time" }, { status: 400 });
+      }
+
+      const yday = getYDay(startDateTime);
+      const hour = startDateTime.getHours();
+      const minute = startDateTime.getMinutes();
+      const length = getDurationInMinutes(startDateTime, dueDateTime);
+
+      const baseTask = {
+        title,
+        desc,
+        category: categoryId,
+        targetType,
+        targetIds,
+        taskStart: { yday },
+        taskTime: { hour, minute, length }
+      };
+
+      let newTask;
+      console.log(baseTask)
+
+      // if (recurring) {
+      //   newTask = await RecurringTaskModel.create({
+      //     ...baseTask,
+      //     recurring: "true",
+      //     recurringType,
+      //     recurringEndDate,
+      //     recurringDays: Array.isArray(recurringDays) ? recurringDays.join(",") : ""
+      //   });
+      // } else {
+        newTask = await TaskModel.create({
+          ...baseTask,
+          isRecurring: null
+        });
+      // }
+
+      return NextResponse.json(newTask, { status: 201 });
+    } catch (error) {
+      console.error("Failed to create task:", error);
+      return NextResponse.json({ error: "Failed to create task" }, { status: 500 });
+    }
 }
