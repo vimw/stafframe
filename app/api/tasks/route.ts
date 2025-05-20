@@ -212,3 +212,77 @@ export async function POST(request: Request){
       return NextResponse.json({ error: "Failed to create task" }, { status: 500 });
     }
 }
+
+
+export async function PATCH(request: Request) {
+  try {
+    await connectDB();
+    const rawData = await request.json();
+    const data = sanitize(rawData);
+
+    const {
+      id,
+      title,
+      desc,
+      category,
+      startDate,
+      startTime,
+      dueDate,
+      dueTime,
+      targetType,
+      targetIds,
+    } = data;
+
+    if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+      return NextResponse.json({ error: "Invalid or missing task ID" }, { status: 400 });
+    }
+
+    const task = await TaskModel.findById(id);
+    if (!task) {
+      return NextResponse.json({ error: "Task not found" }, { status: 404 });
+    }
+
+    if (category) {
+      let categoryId;
+      if (mongoose.Types.ObjectId.isValid(category)) {
+        categoryId = category;
+      } else {
+        const foundCategory = await CategoryModel.findOne({ name: category });
+        if (!foundCategory) {
+          return NextResponse.json(
+            { error: `Category "${category}" not found` },
+            { status: 400 }
+          );
+        }
+        categoryId = foundCategory._id;
+      }
+      task.category = categoryId;
+    }
+
+    if (title !== undefined) task.title = title;
+    if (desc !== undefined) task.desc = desc;
+    if (targetType !== undefined) task.targetType = targetType;
+    if (Array.isArray(targetIds)) task.targetIds = targetIds;
+
+    if (startDate && startTime && dueDate && dueTime) {
+      const startDateTime = new Date(`${startDate}T${startTime}`);
+      const dueDateTime = new Date(`${dueDate}T${dueTime}`);
+
+      if (isNaN(startDateTime.getTime()) || isNaN(dueDateTime.getTime())) {
+        return NextResponse.json({ error: "Invalid date/time" }, { status: 400 });
+      }
+
+      task.taskStart.yday = getYDay(startDateTime);
+      task.taskTime.hour = startDateTime.getHours();
+      task.taskTime.minute = startDateTime.getMinutes();
+      task.taskTime.length = getDurationInMinutes(startDateTime, dueDateTime);
+    }
+
+    const updatedTask = await task.save();
+    return NextResponse.json(updatedTask, { status: 200 });
+
+  } catch (error) {
+    console.error("Failed to update task:", error);
+    return NextResponse.json({ error: "Failed to update task" }, { status: 500 });
+  }
+}
