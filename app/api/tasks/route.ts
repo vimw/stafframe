@@ -286,3 +286,27 @@ export async function PATCH(request: Request) {
     return NextResponse.json({ error: "Failed to update task" }, { status: 500 });
   }
 }
+
+export async function DELETE(request: Request){
+    try {
+        await connectDB();
+
+        const {id}= await request.json()
+
+        if(!id){
+            return NextResponse.json({error: 'Task ID is required'})
+        }
+
+        const sanitizedId = sanitize(id);
+
+        const deletedTask = await TaskModel.findByIdAndDelete(sanitizedId)
+
+        if(!deletedTask){
+            return NextResponse.json({ error: 'Task not found' }, { status: 404 });
+        }
+        return NextResponse.json({ message: 'Task deleted successfully' }, { status: 200 });
+    } catch (error){
+        console.error('Error deleting task:', error);
+        return NextResponse.json({ error: 'Server error' }, { status: 500 });
+    }
+}
